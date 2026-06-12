@@ -1,0 +1,1507 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fundamental Analysis Master Guide — From 100 Shares to a Listed Company</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img,svg{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;color:inherit;background:none;border:none}
+input,select{font:inherit;color:inherit}
+
+/* ---------- Theme tokens: "Gilded Ledger" ---------- */
+:root{
+  --font-serif:'Fraunces',Georgia,serif;
+  --font-sans:'Inter',-apple-system,system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+
+  --bg:#F5F1E8; --surface:#FFFDF7; --surface2:#EFE9DA; --inset:#F8F4EB;
+  --ink:#1B2434; --muted:#5D6779; --subtle:#8B93A3;
+  --line:#DED5C2; --line2:#E9E2D2;
+  --gold:#96772A; --gold-strong:#7C611E; --gold-soft:#F0E7CD; --gold-ghost:rgba(150,119,42,.10);
+  --green:#1D7A4F; --green-soft:#E2EFE6; --red:#B2452F; --red-soft:#F4E2DC;
+  --blue:#2D5F92; --blue-soft:#E2EAF3;
+  --shadow:0 10px 30px rgba(27,36,52,.08);
+  --radius:10px;
+}
+html[data-theme="dark"]{
+  --bg:#0B111C; --surface:#121A29; --surface2:#1A2436; --inset:#0F1624;
+  --ink:#EAE5D8; --muted:#9AA5B7; --subtle:#6C7689;
+  --line:#27344C; --line2:#1F2A3F;
+  --gold:#D2AC5C; --gold-strong:#E5C476; --gold-soft:#2A2616; --gold-ghost:rgba(210,172,92,.12);
+  --green:#41C088; --green-soft:#11301F; --red:#E2705A; --red-soft:#3A1B14;
+  --blue:#74A8DE; --blue-soft:#15263B;
+  --shadow:0 12px 34px rgba(0,0,0,.45);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px;-webkit-font-smoothing:antialiased;transition:background .35s,color .35s}
+::selection{background:var(--gold);color:#fff}
+
+/* ---------- Top bar ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line2)}
+.topin{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-serif);font-weight:700;font-size:17px;letter-spacing:-.01em}
+.brand .mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-strong));display:grid;place-items:center;color:#fff;font-family:var(--font-serif);font-size:15px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.brand small{display:block;font-family:var(--font-sans);font-weight:500;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.topspacer{flex:1}
+.theme-toggle{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--surface);color:var(--muted);font-size:12.5px;font-weight:600;transition:border-color .2s,color .2s}
+.theme-toggle:hover{border-color:var(--gold);color:var(--gold)}
+.theme-toggle svg{width:15px;height:15px}
+html[data-theme="light"] .ic-moon{display:none}
+html[data-theme="dark"] .ic-sun{display:none}
+
+/* ---------- Section chip nav + progress ---------- */
+.navwrap{position:sticky;top:51px;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line2)}
+.chips{max-width:1080px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding:10px 20px;scrollbar-width:thin}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 13px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;transition:all .18s}
+.chip b{font-family:var(--font-mono);font-weight:600;color:var(--gold);margin-right:5px}
+.chip:hover{border-color:var(--gold);color:var(--ink)}
+.chip.active{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip.active b{color:var(--gold)}
+html[data-theme="dark"] .chip.active{background:var(--gold);border-color:var(--gold);color:#10131B}
+html[data-theme="dark"] .chip.active b{color:#10131B}
+.prog{height:3px;background:var(--line2)}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-strong));transition:width .4s}
+
+/* ---------- Page + sections ---------- */
+.page{max-width:1080px;margin:0 auto;padding:34px 20px 90px}
+.gsec{display:none;animation:fade .45s ease}
+.gsec.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.shead{margin-bottom:26px;max-width:820px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:"";height:1px;width:54px;background:var(--gold);opacity:.5}
+.shead h2{font-family:var(--font-serif);font-weight:700;font-size:clamp(28px,4.4vw,42px);line-height:1.06;letter-spacing:-.02em;margin:10px 0 12px}
+.lede{color:var(--muted);font-size:16px;max-width:760px}
+h3{font-family:var(--font-serif);font-weight:600;font-size:21px;letter-spacing:-.01em;margin:34px 0 12px}
+h4{font-size:14.5px;font-weight:700;margin:18px 0 8px}
+p{margin:0 0 12px}
+p:last-child{margin-bottom:0}
+strong{font-weight:650}
+.sdiv{display:flex;align-items:center;gap:12px;margin:40px 0 6px;color:var(--subtle);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.sdiv::before,.sdiv::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ---------- Grid + cards ---------- */
+.grid{display:grid;gap:14px;margin:14px 0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.card h4{margin-top:0}
+.card .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.small{font-size:13px;color:var(--muted)}
+.tiny{font-size:12px;color:var(--subtle)}
+
+/* ---------- KPI tiles ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.kpi .v{font-family:var(--font-mono);font-size:22px;font-weight:600;font-feature-settings:'tnum';color:var(--ink)}
+.kpi .l{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.kpi.gold .v{color:var(--gold)} .kpi.green .v{color:var(--green)} .kpi.red .v{color:var(--red)}
+
+/* ---------- Formula + ledger ---------- */
+.formula{font-family:var(--font-mono);font-size:13px;background:var(--inset);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:6px;padding:11px 14px;margin:10px 0;overflow-x:auto;white-space:nowrap;font-feature-settings:'tnum'}
+.alpha{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:var(--radius);padding:16px 18px;margin:16px 0;box-shadow:var(--shadow)}
+.alpha .tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
+.alpha .tag::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.alpha .num,.num{font-family:var(--font-mono);font-feature-settings:'tnum'}
+
+/* ---------- Tables ---------- */
+.tblwrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.2px}
+th{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--inset);white-space:nowrap}
+td{padding:9px 14px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--gold-ghost)}
+td.num,th.num{text-align:right;font-family:var(--font-mono);font-feature-settings:'tnum';white-space:nowrap}
+tr.total td{font-weight:700;border-top:2px solid var(--line);background:var(--inset)}
+tr.sub td{color:var(--muted)}
+
+/* ---------- Pills / badges ---------- */
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.pill.good{background:var(--green-soft);color:var(--green)}
+.pill.bad{background:var(--red-soft);color:var(--red)}
+.pill.warn{background:var(--gold-soft);color:var(--gold-strong)}
+.pill.neut{background:var(--blue-soft);color:var(--blue)}
+
+/* ---------- Callouts ---------- */
+.call{border-radius:var(--radius);padding:13px 16px;margin:12px 0;font-size:13.5px;border:1px solid var(--line)}
+.call b.cl{display:block;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
+.call.mis{background:var(--red-soft);border-color:color-mix(in srgb,var(--red) 30%,var(--line))}
+.call.mis b.cl{color:var(--red)}
+.call.pro{background:var(--blue-soft);border-color:color-mix(in srgb,var(--blue) 30%,var(--line))}
+.call.pro b.cl{color:var(--blue)}
+.call.take{background:var(--gold-soft);border-color:color-mix(in srgb,var(--gold) 35%,var(--line))}
+.call.take b.cl{color:var(--gold-strong)}
+
+/* ---------- Accordion ---------- */
+details.acc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin:9px 0;overflow:hidden}
+details.acc summary{list-style:none;cursor:pointer;padding:13px 16px;font-weight:650;font-size:14px;display:flex;align-items:center;gap:10px;transition:background .15s}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::before{content:"+";font-family:var(--font-mono);color:var(--gold);font-weight:600;width:16px;text-align:center;flex:0 0 auto}
+details.acc[open] summary::before{content:"–"}
+details.acc summary:hover{background:var(--gold-ghost)}
+details.acc .accbody{padding:2px 16px 15px 42px;font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line2)}
+details.acc .accbody b{color:var(--ink)}
+
+/* ---------- Tabs ---------- */
+.tabs{margin:16px 0}
+.tabbar{display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:0;margin-bottom:14px}
+.tab-btn{padding:8px 14px;font-size:13px;font-weight:650;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fade .3s ease}
+
+/* ---------- Flow / timeline ---------- */
+.flow{position:relative;margin:18px 0;padding-left:30px}
+.flow::before{content:"";position:absolute;left:10px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--gold),var(--line))}
+.step{position:relative;padding:0 0 18px 8px}
+.step::before{content:"";position:absolute;left:-26px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:3px solid var(--gold)}
+.step h4{margin:0 0 4px}
+.step .small{margin:0}
+
+/* ---------- Bars / charts ---------- */
+.bars{display:flex;align-items:flex-end;gap:10px;height:170px;margin:16px 0 6px;padding:0 4px}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}
+.bar i{display:block;width:100%;max-width:64px;background:linear-gradient(180deg,var(--gold),var(--gold-strong));border-radius:6px 6px 2px 2px;transition:height .8s cubic-bezier(.2,.7,.3,1)}
+.bar.blue i{background:linear-gradient(180deg,var(--blue),color-mix(in srgb,var(--blue) 70%,#000))}
+.bar .bv{font-family:var(--font-mono);font-size:12px;font-weight:600}
+.bar .bl{font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:8px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* ---------- Waterfall (margin bridge) ---------- */
+.water{display:flex;align-items:flex-end;gap:8px;height:200px;margin:18px 0 4px}
+.wcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;min-width:0}
+.wcol i{width:100%;max-width:70px;border-radius:5px}
+.wcol .wv{font-family:var(--font-mono);font-size:11.5px;font-weight:600}
+.wcol .wl{font-size:10px;color:var(--muted);text-align:center;line-height:1.25}
+
+/* ---------- Calculators ---------- */
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:16px 0;box-shadow:var(--shadow)}
+.calc .k{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.calc .k::before{content:"";width:8px;height:8px;border:2px solid var(--gold);border-radius:50%}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.field input{width:100%;background:var(--inset);border:1px solid var(--line);border-radius:7px;padding:8px 10px;font-family:var(--font-mono);font-size:14px;font-feature-settings:'tnum'}
+.field input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.cout{background:var(--inset);border:1px dashed var(--line);border-radius:8px;padding:13px 15px;font-size:13.5px}
+.cout .big{font-family:var(--font-mono);font-size:20px;font-weight:600;color:var(--gold-strong)}
+html[data-theme="dark"] .cout .big{color:var(--gold)}
+
+/* ---------- Checklist ---------- */
+.checklist{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:14px 0}
+.checklist .cl-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.checklist .cl-head h4{margin:0}
+.cl-score{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--gold);background:var(--gold-ghost);border:1px solid color-mix(in srgb,var(--gold) 40%,var(--line));padding:3px 11px;border-radius:999px}
+.checklist label.row{display:flex;gap:11px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line2);font-size:13.5px;cursor:pointer}
+.checklist label.row:last-child{border-bottom:none}
+.checklist input[type=checkbox]{margin-top:3px;width:15px;height:15px;accent-color:var(--gold);flex:0 0 auto}
+.checklist label.row:hover{color:var(--gold-strong)}
+html[data-theme="dark"] .checklist label.row:hover{color:var(--gold)}
+
+/* ---------- Donut ---------- */
+.donutwrap{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:14px 0}
+.donut{width:172px;height:172px;flex:0 0 auto}
+.dleg{flex:1;min-width:220px;font-size:13px}
+.dleg .r{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--line2)}
+.dleg .r:last-child{border-bottom:none}
+.dleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:-1px}
+.dleg .num{font-weight:600}
+
+/* ---------- Compare two-up ---------- */
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0}
+.vs .side{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--surface)}
+.vs .side.goodside{border-top:3px solid var(--green)}
+.vs .side.badside{border-top:3px solid var(--red)}
+.vs .side h4{margin-top:0}
+
+/* ---------- Footer nav ---------- */
+.navfoot{display:flex;justify-content:space-between;gap:12px;margin-top:48px;border-top:1px solid var(--line);padding-top:18px}
+.nbtn{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:12px 16px;max-width:46%;text-align:left;transition:all .18s}
+.nbtn:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow)}
+.nbtn small{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.nbtn span{font-weight:650;font-size:13.5px}
+.nbtn.next{text-align:right;margin-left:auto}
+.nbtn[disabled]{opacity:.35;pointer-events:none}
+footer.colophon{border-top:1px solid var(--line);margin-top:60px;padding:26px 20px;text-align:center;color:var(--subtle);font-size:12px}
+footer.colophon b{color:var(--muted)}
+
+/* ---------- Hero (home) ---------- */
+.hero{padding:24px 0 8px}
+.hero .eyebrow{justify-content:flex-start}
+.hero h1{font-family:var(--font-serif);font-weight:700;font-size:clamp(36px,6vw,62px);line-height:1.02;letter-spacing:-.025em;margin:14px 0 16px;max-width:880px}
+.hero h1 em{font-style:italic;color:var(--gold-strong)}
+html[data-theme="dark"] .hero h1 em{color:var(--gold)}
+.hero .lede{font-size:17px;max-width:720px}
+.count{font-family:var(--font-mono);font-feature-settings:'tnum'}
+.rv{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
+.rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}
+@media (max-width:640px){
+  body{font-size:14.5px}
+  .topin{padding:9px 14px}
+  .chips{padding:9px 14px}
+  .page{padding:24px 14px 70px}
+  .theme-toggle span{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topin">
+    <div class="brand">
+      <div class="mark">α</div>
+      <div>Fundamental Analysis<small>Master Guide · Edition I</small></div>
+    </div>
+    <div class="topspacer"></div>
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle light and dark mode">
+      <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/></svg>
+      <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </div>
+</header>
+
+<nav class="navwrap">
+  <div class="chips" id="chips"></div>
+  <div class="prog"><i id="progFill"></i></div>
+</nav>
+
+<main class="page" id="page">
+<!-- ============ SECTION 0 · HOME ============ -->
+<section class="gsec" id="s0" data-title="Start here">
+  <div class="hero">
+    <div class="eyebrow">A complete course in one interactive guide</div>
+    <h1>From <em>100 shares</em> in a garage to a <em>₹1,080 crore</em> listed company.</h1>
+    <p class="lede">This guide teaches institutional-grade fundamental analysis from first principles — no prior knowledge assumed. One fictional company, <strong>Alpha Technologies</strong>, runs through all 17 sections. You will watch its founder's 100 shares of ₹10 face value travel through angel money, venture capital, private equity, an IPO and a decade on the public markets — and learn every concept exactly where it appears in real life.</p>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi gold"><div class="v"><span class="count" data-count="17">0</span></div><div class="l">Sections</div></div>
+    <div class="kpi"><div class="v"><span class="count" data-count="120" data-suffix="+">0</span></div><div class="l">Concepts &amp; metrics</div></div>
+    <div class="kpi"><div class="v"><span class="count" data-count="3">0</span></div><div class="l">Live calculators</div></div>
+    <div class="kpi green"><div class="v"><span class="count" data-count="160" data-suffix="×">0</span></div><div class="l">The angel's final return</div></div>
+  </div>
+
+  <h3>The Alpha Technologies journey — your running example</h3>
+  <p class="small">Every number below is derived step by step inside the guide. Tap any milestone to preview it; the relevant section teaches the mechanics in full.</p>
+
+  <div class="flow">
+    <div class="step"><h4>2014 · Incorporation — <span class="num">100 shares · FV ₹10</span></h4><p class="small">Founder Ananya Rao registers Alpha Technologies Pvt Ltd with ₹1,000 of share capital. She owns 100%. <em>(Section 1–2)</em></p></div>
+    <div class="step"><h4>2016 · Seed round — <span class="num">₹25 lakh at ₹100/share</span></h4><p class="small">An angel buys 20% — share premium, pre-money and dilution appear for the first time. <em>(Section 3)</em></p></div>
+    <div class="step"><h4>2018 · Series A — <span class="num">₹6.25 cr at ₹1,000/share</span></h4><p class="small">Crestline Ventures values the company at ₹18.75 cr post-money. The angel's stake is up 10×. <em>(Section 3)</em></p></div>
+    <div class="step"><h4>2020 · Series B — <span class="num">₹50 cr at ₹4,000/share</span></h4><p class="small">Meridian Capital (PE) takes 40%. Post-money ₹125 cr. The founder now holds 32% — and is wealthier than ever. <em>(Section 3)</em></p></div>
+    <div class="step"><h4>2023 · IPO — <span class="num">₹150 cr raised at ₹500</span></h4><p class="small">A 31:1 bonus first creates 1 crore shares. Fresh issue + offer-for-sale lists Alpha at a ₹600 cr market cap; it opens 30% up. <em>(Section 4–5)</em></p></div>
+    <div class="step"><h4>2026 · Listed company — <span class="num">₹900/share · ₹1,080 cr m-cap</span></h4><p class="small">Revenue ₹500 cr, PAT ₹60 cr, ROE 20%, P/E 18×. Now the real analysis begins. <em>(Sections 6–17)</em></p></div>
+  </div>
+
+  <h3>How to use this guide</h3>
+  <div class="grid g3">
+    <div class="card"><div class="k">Navigate</div><p class="small">Use the numbered chips above or the Previous / Next buttons at the bottom of every section. The gold bar tracks your progress.</p></div>
+    <div class="card"><div class="k">Interact</div><p class="small">Tap accordions to expand definitions, switch tabs on the financial statements, tick the forensic checklists, and play with the dilution and DCF calculators.</p></div>
+    <div class="card"><div class="k">Pattern</div><p class="small">Every major metric follows one discipline: definition → formula → Alpha example → what good and bad look like → industry exceptions → common mistakes → how professionals use it.</p></div>
+  </div>
+
+  <div class="call take"><b class="cl">Investor takeaway</b>A share price is the last page of a long story. This guide teaches you to read the whole book — ownership, capital, statements, quality, valuation and risk — so that price becomes information, not noise.</div>
+</section>
+
+<!-- ============ SECTION 1 ============ -->
+<section class="gsec" id="s1" data-title="Life of a company">
+  <div class="shead">
+    <div class="eyebrow">Section 01</div>
+    <h2>The Complete Life of a Company</h2>
+    <p class="lede">Before any ratio means anything, you must understand what a company <em>is</em>, why it issues shares, and how its capital is structured. Everything in investing flows from ownership.</p>
+  </div>
+
+  <h3>What is a company?</h3>
+  <p>A company is a <strong>separate legal person</strong> created by law. It can own assets, borrow money, sign contracts, sue and be sued — independently of the humans who own it. Its ownership is divided into identical units called <strong>shares</strong> (equity). Whoever holds shares owns a proportional slice of everything the company is and will become.</p>
+  <div class="grid g3">
+    <div class="card"><div class="k">Equity</div><p class="small">The owners' claim. Shareholders are paid <em>last</em> — after employees, suppliers, lenders and tax — but keep <em>everything</em> that remains. Unlimited upside, last-in-line downside.</p></div>
+    <div class="card"><div class="k">Liability (debt)</div><p class="small">Borrowed money. Lenders get fixed interest and repayment first, but never share in the upside. Debt is a contract; equity is a residual.</p></div>
+    <div class="card"><div class="k">Limited liability</div><p class="small">A shareholder can lose only what they invested. If Alpha collapses owing ₹500 cr, Ananya's house is safe. This single legal idea is what makes large-scale risk-taking — and stock markets — possible.</p></div>
+  </div>
+  <div class="call pro"><b class="cl">Why shares exist</b>Big ideas need more capital than founders have. Shares let a company raise money <em>without promising repayment</em>: investors give cash today for a permanent claim on future profits. Capital formation — pooling thousands of savers into one balance sheet — is the entire purpose of equity markets.</div>
+
+  <h3>The share capital ladder</h3>
+  <p>Indian company law defines a precise hierarchy of "share capital." Analysts confuse these constantly; you should never.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Layer</th><th>Meaning</th><th class="num">Alpha at incorporation</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Authorized capital</strong></td><td>The legal <em>maximum</em> the charter permits the company to issue. A ceiling, not money.</td><td class="num">₹50,00,000 (5,00,000 sh × ₹10)</td></tr>
+      <tr><td><strong>Issued capital</strong></td><td>The portion actually offered to investors so far.</td><td class="num">₹1,000 (100 sh)</td></tr>
+      <tr><td><strong>Subscribed capital</strong></td><td>The portion investors agreed to take up. Usually = issued.</td><td class="num">₹1,000</td></tr>
+      <tr><td><strong>Paid-up capital</strong></td><td>The portion investors have actually paid for. This sits on the balance sheet.</td><td class="num">₹1,000</td></tr>
+    </tbody>
+  </table></div>
+  <div class="formula">Authorized  ≥  Issued  ≥  Subscribed  ≥  Paid-up</div>
+
+  <h3>Outstanding shares, treasury shares &amp; free float</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Outstanding shares</h4><p class="small">All shares currently held by investors. This is the number used for EPS and market cap. Alpha today: <span class="num"><strong>1,20,00,000</strong></span> shares.</p></div>
+    <div class="card"><h4>Treasury shares</h4><p class="small">Shares a company bought back and holds itself (common in the US; in India bought-back shares must be extinguished). They carry no vote, no dividend, and are excluded from EPS.</p></div>
+    <div class="card"><h4>Free float</h4><p class="small">Shares actually available for public trading = outstanding − promoter/strategic locked-in holdings. Index weights (Nifty, Sensex) use <em>free-float</em> market cap. Low float → violent price swings on small volumes.</p></div>
+    <div class="card"><h4>Promoter holding</h4><p class="small">India-specific term for founders/controlling family. High, stable promoter holding signals skin in the game; <em>pledged</em> promoter shares signal stress.</p></div>
+  </div>
+
+  <h3>Who owns a listed company? Alpha's shareholding pattern (2026)</h3>
+  <div class="donutwrap">
+    <svg class="donut" viewBox="0 0 42 42" role="img" aria-label="Alpha shareholding pattern donut chart">
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--line2)" stroke-width="7"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--gold)" stroke-width="7" stroke-dasharray="26.7 73.3" stroke-dashoffset="25"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--blue)" stroke-width="7" stroke-dasharray="41.6 58.4" stroke-dashoffset="-1.7"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--green)" stroke-width="7" stroke-dasharray="13.4 86.6" stroke-dashoffset="-43.3"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--red)" stroke-width="7" stroke-dasharray="18.3 81.7" stroke-dashoffset="-56.7"/>
+      <text x="21" y="20" text-anchor="middle" font-size="5.5" fill="var(--ink)" font-family="IBM Plex Mono" font-weight="600">1.2 cr</text>
+      <text x="21" y="26" text-anchor="middle" font-size="3" fill="var(--muted)">shares</text>
+    </svg>
+    <div class="dleg">
+      <div class="r"><span><i style="background:var(--gold)"></i>Promoter (founder Ananya)</span><span class="num">26.7% · 32,00,000</span></div>
+      <div class="r"><span><i style="background:var(--blue)"></i>Institutions — PE 25% + VC 16.7%</span><span class="num">41.7% · 50,00,000</span></div>
+      <div class="r"><span><i style="background:var(--green)"></i>Other non-institutional (angel + HNIs)</span><span class="num">13.3% · 16,00,000</span></div>
+      <div class="r"><span><i style="background:var(--red)"></i>Retail public</span><span class="num">18.3% · 22,00,000</span></div>
+    </div>
+  </div>
+  <p class="small">Listed companies disclose this split (promoter / FII / DII / public) every quarter. Rising institutional holding is a quality signal; rising promoter pledging or steady promoter selling is a warning.</p>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Confusing authorized capital with money raised (it is only a ceiling) · using total shares instead of free float when judging liquidity · ignoring promoter pledging because the headline holding looks high.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>You are not buying a ticker — you are buying a fractional claim on a legal entity's residual profits. Knowing exactly <em>how many claims exist</em> and <em>who holds them</em> is step zero of all analysis.</div>
+</section>
+
+<!-- ============ SECTION 2 ============ -->
+<section class="gsec" id="s2" data-title="Share fundamentals">
+  <div class="shead">
+    <div class="eyebrow">Section 02</div>
+    <h2>Share Fundamentals — The Many "Values" of One Share</h2>
+    <p class="lede">A single share carries at least eight different "values." Beginners mix them up; professionals know each answers a different question.</p>
+  </div>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Value</th><th>What it answers</th><th>How it's set</th><th class="num">Alpha (2026)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Face value (par)</strong></td><td>Accounting label per share</td><td>Fixed in charter (₹1/₹2/₹5/₹10)</td><td class="num">₹10</td></tr>
+      <tr><td><strong>Issue price</strong></td><td>What investors paid the company</td><td>Face value + securities premium</td><td class="num">₹500 (IPO)</td></tr>
+      <tr><td><strong>Book value / share</strong></td><td>Accounting net worth per share</td><td>Net worth ÷ shares</td><td class="num">₹250</td></tr>
+      <tr><td><strong>Market price</strong></td><td>What the last buyer paid</td><td>Live supply &amp; demand</td><td class="num">₹900</td></tr>
+      <tr><td><strong>Intrinsic value</strong></td><td>What the business is truly worth</td><td>PV of future cash flows (est.)</td><td class="num">analyst's job (§12)</td></tr>
+      <tr><td><strong>Liquidation value</strong></td><td>Worth if shut down today</td><td>Fire-sale assets − all liabilities</td><td class="num">usually &lt; book</td></tr>
+      <tr><td><strong>Replacement value</strong></td><td>Cost to rebuild from scratch</td><td>Current cost of assets</td><td class="num">basis of Tobin's Q</td></tr>
+      <tr><td><strong>Fair value</strong></td><td>Price a willing buyer/seller agree</td><td>Valuation standards (Ind AS 113)</td><td class="num">context-specific</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alpha"><div class="tag">Alpha Technologies · Ledger</div>
+    <p class="small" style="margin:0">Face value <span class="num"><strong>₹10</strong></span> has been constant since 2014, while market price went <span class="num">₹10 → ₹100 → ₹1,000 → ₹4,000 → ₹500 (post-bonus) → ₹900</span>. <strong>Face value tells you nothing about worth</strong> — it is an accounting unit used to compute dividends ("200% dividend" = ₹20 on FV ₹10) and split ratios.</p>
+  </div>
+  <div class="call mis"><b class="cl">Misconceptions to kill</b>"₹10 face value share trading at ₹900 is expensive" — meaningless; FV is arbitrary. · "Price below book value = bargain" — often it signals doubtful assets or poor returns. · "Market price = company's worth" — price is an opinion refreshed every second; value changes slowly.</div>
+
+  <h3>Corporate actions — how share counts change</h3>
+  <div class="tabs" data-tabs>
+    <div class="tabbar">
+      <button class="tab-btn active" data-tab="ca1">Split</button>
+      <button class="tab-btn" data-tab="ca2">Reverse split</button>
+      <button class="tab-btn" data-tab="ca3">Bonus</button>
+      <button class="tab-btn" data-tab="ca4">Rights issue</button>
+      <button class="tab-btn" data-tab="ca5">Buyback</button>
+      <button class="tab-btn" data-tab="ca6">Dilution</button>
+    </div>
+    <div class="tab-panel active" data-panel="ca1">
+      <p><strong>Stock split</strong> divides each share into smaller pieces. FV ₹10 → ₹2 means 1 share becomes 5; price divides by 5; <em>your wealth is unchanged</em>. Purpose: improve liquidity and affordability.</p>
+      <div class="formula">1 share @ ₹900 (FV ₹10) → split 5:1 → 5 shares @ ₹180 (FV ₹2) · holding value ₹900 either way</div>
+      <p class="small">Splits change nothing fundamental — EPS, book value/share and dividend/share all divide by the same factor. Any "split rally" is sentiment, not value.</p>
+    </div>
+    <div class="tab-panel" data-panel="ca2">
+      <p><strong>Reverse split</strong> (consolidation) merges shares: 10 shares of ₹1 FV → 1 share of ₹10. Often used by penny stocks to escape "below ₹10" optics or exchange minimums — frequently a <span class="pill bad">red flag</span> about what management is hiding.</p>
+    </div>
+    <div class="tab-panel" data-panel="ca3">
+      <p><strong>Bonus shares</strong> are free shares issued by converting accumulated reserves into share capital. Shareholder wealth is unchanged; the pie is cut into more slices.</p>
+      <div class="alpha"><div class="tag">Alpha · 2022 bonus 31:1</div><p class="small" style="margin:0">3,12,500 shares × 32 = <span class="num"><strong>1,00,00,000</strong></span> shares. Reserves fell ₹9.69 cr; share capital rose ₹9.69 cr; net worth identical. Done to create a sensible share count before the IPO.</p></div>
+      <p class="small">Difference vs split: bonus keeps FV constant and capitalizes reserves; split reduces FV and touches no reserves.</p>
+    </div>
+    <div class="tab-panel" data-panel="ca4">
+      <p><strong>Rights issue</strong>: existing shareholders get the right to buy new shares, pro-rata, usually below market price. It raises fresh capital while letting owners avoid dilution — <em>if they subscribe</em>. Skip your rights and your stake shrinks while the discount transfers value to subscribers.</p>
+      <div class="formula">Theoretical ex-rights price (TERP) = (Old sh × Mkt price + New sh × Rights price) ÷ Total shares</div>
+    </div>
+    <div class="tab-panel" data-panel="ca5">
+      <p><strong>Buyback</strong>: the company purchases its own shares (tender offer or open market) and, in India, extinguishes them. Fewer shares → higher EPS and ownership % for those who stay. It is the mirror image of issuing shares — and a tax-efficient way to return cash.</p>
+      <div class="formula">Alpha buys back 10,00,000 sh @ ₹900 (₹90 cr) → shares 1.2 cr → 1.1 cr → EPS ₹50 → ₹54.5 (+9%) with zero profit growth</div>
+      <p class="small">Good buybacks happen below intrinsic value with surplus cash. Buybacks at bubble prices, or funded by debt while the business starves, destroy value.</p>
+    </div>
+    <div class="tab-panel" data-panel="ca6">
+      <p><strong>Dilution</strong> is the silent tax of equity: every new share issued (funding rounds, ESOPs, convertibles, QIPs) shrinks each existing holder's percentage. <strong>Anti-dilution clauses</strong> protect investors in <em>down rounds</em> by retroactively repricing their entry (full-ratchet or weighted-average), pushing the pain onto founders.</p>
+      <div class="formula">New ownership % = Old % × (Old shares ÷ New total shares)</div>
+      <p class="small">Section 3's calculator lets you feel dilution numerically. Watch the <em>fully-diluted</em> share count (including ESOPs and convertibles), not just outstanding shares.</p>
+    </div>
+  </div>
+
+  <div class="call pro"><b class="cl">Professional usage</b>Analysts compute everything per <em>fully-diluted</em> share, track corporate actions in a price-adjusted series, and treat persistent equity issuance as a cost of ownership — companies that compound EPS while shrinking share count are rare and precious.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Splits and bonuses change the wrapper, not the gift. Only three things change per-share value: profits, share count, and the price you pay.</div>
+</section>
+
+<!-- ============ SECTION 3 ============ -->
+<section class="gsec" id="s3" data-title="Funding journey">
+  <div class="shead">
+    <div class="eyebrow">Section 03</div>
+    <h2>The Funding Journey — From Bootstrap to Private Equity</h2>
+    <p class="lede">Companies climb a capital ladder. Each rung has its own investors, cheque sizes, instruments and maths. Watch Alpha climb it round by round.</p>
+  </div>
+
+  <h3>The capital ladder</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Stage</th><th>Typical investors</th><th>What's being funded</th><th>Typical cheque (India)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Bootstrapping</strong></td><td>Founder savings, revenue</td><td>Idea → first product</td><td class="num">₹5L – ₹50L</td></tr>
+      <tr><td><strong>Angel / Seed</strong></td><td>Angels, micro-VCs, accelerators</td><td>Product-market fit</td><td class="num">₹25L – ₹5 cr</td></tr>
+      <tr><td><strong>Series A</strong></td><td>Venture capital funds</td><td>Proven model → scale</td><td class="num">₹15 – 80 cr</td></tr>
+      <tr><td><strong>Series B / C</strong></td><td>Growth VCs, crossover funds</td><td>Market expansion, moat</td><td class="num">₹80 – 800 cr</td></tr>
+      <tr><td><strong>Private equity</strong></td><td>PE / buyout funds</td><td>Profitable scale, pre-IPO</td><td class="num">₹200 cr+</td></tr>
+      <tr><td><strong>Strategic</strong></td><td>Corporates</td><td>Synergy, distribution, tech</td><td class="num">varies</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Pre-money, post-money &amp; dilution — the only three formulas you need</h3>
+  <div class="formula">Post-money = Pre-money + New investment&#10;Investor's stake = Investment ÷ Post-money&#10;Existing holder's new % = Old % × (Pre-money ÷ Post-money)</div>
+
+  <h3>Alpha's cap table, round by round</h3>
+  <div class="tabs" data-tabs>
+    <div class="tabbar">
+      <button class="tab-btn active" data-tab="r0">2014 · Founding</button>
+      <button class="tab-btn" data-tab="r1">2016 · Seed</button>
+      <button class="tab-btn" data-tab="r2">2018 · Series A</button>
+      <button class="tab-btn" data-tab="r3">2020 · Series B (PE)</button>
+    </div>
+    <div class="tab-panel active" data-panel="r0">
+      <div class="tblwrap"><table>
+        <thead><tr><th>Holder</th><th class="num">Shares</th><th class="num">%</th><th class="num">Invested</th></tr></thead>
+        <tbody>
+          <tr><td>Ananya (founder)</td><td class="num">1,00,000</td><td class="num">100%</td><td class="num">₹10,00,000</td></tr>
+          <tr class="total"><td>Total · price/share ₹10 (FV)</td><td class="num">1,00,000</td><td class="num">100%</td><td class="num">₹10 lakh</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">Ananya started with 100 shares at incorporation, then subscribed 99,900 more at face value as she poured her savings in. Company value = whatever the cash and code are worth; no external price exists yet.</p>
+    </div>
+    <div class="tab-panel" data-panel="r1">
+      <div class="tblwrap"><table>
+        <thead><tr><th>Holder</th><th class="num">Shares</th><th class="num">%</th><th class="num">Stake value</th></tr></thead>
+        <tbody>
+          <tr><td>Ananya (founder)</td><td class="num">1,00,000</td><td class="num">80.0%</td><td class="num">₹1.00 cr</td></tr>
+          <tr><td>Angel investor</td><td class="num">25,000</td><td class="num">20.0%</td><td class="num">₹0.25 cr</td></tr>
+          <tr class="total"><td>Total · ₹100/share (₹10 FV + ₹90 premium)</td><td class="num">1,25,000</td><td class="num">100%</td><td class="num">Post-money ₹1.25 cr</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">Angel invests <span class="num">₹25,00,000</span> for 25,000 new shares. Pre-money = 1,00,000 × ₹100 = <strong>₹1 cr</strong>; post-money <strong>₹1.25 cr</strong>. The ₹90 above face value is booked as <strong>securities premium</strong> in reserves. Ananya was diluted 100% → 80%, yet her stake is now <em>priced</em> at ₹1 cr.</p>
+    </div>
+    <div class="tab-panel" data-panel="r2">
+      <div class="tblwrap"><table>
+        <thead><tr><th>Holder</th><th class="num">Shares</th><th class="num">%</th><th class="num">Stake value</th></tr></thead>
+        <tbody>
+          <tr><td>Ananya (founder)</td><td class="num">1,00,000</td><td class="num">53.3%</td><td class="num">₹10.00 cr</td></tr>
+          <tr><td>Angel</td><td class="num">25,000</td><td class="num">13.3%</td><td class="num">₹2.50 cr</td></tr>
+          <tr><td>Crestline Ventures (VC)</td><td class="num">62,500</td><td class="num">33.3%</td><td class="num">₹6.25 cr</td></tr>
+          <tr class="total"><td>Total · ₹1,000/share</td><td class="num">1,87,500</td><td class="num">100%</td><td class="num">Post-money ₹18.75 cr</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">VC invests <span class="num">₹6.25 cr</span> at ₹1,000/share (pre-money ₹12.5 cr). The angel's ₹25L is already marked at ₹2.5 cr — <strong>10×</strong> on paper. Note: <em>everyone's percentage falls, everyone's value rises</em>. That is what a good up round looks like.</p>
+    </div>
+    <div class="tab-panel" data-panel="r3">
+      <div class="tblwrap"><table>
+        <thead><tr><th>Holder</th><th class="num">Shares</th><th class="num">%</th><th class="num">Stake value</th></tr></thead>
+        <tbody>
+          <tr><td>Ananya (founder)</td><td class="num">1,00,000</td><td class="num">32.0%</td><td class="num">₹40 cr</td></tr>
+          <tr><td>Angel</td><td class="num">25,000</td><td class="num">8.0%</td><td class="num">₹10 cr</td></tr>
+          <tr><td>Crestline Ventures (VC)</td><td class="num">62,500</td><td class="num">20.0%</td><td class="num">₹25 cr</td></tr>
+          <tr><td>Meridian Capital (PE)</td><td class="num">1,25,000</td><td class="num">40.0%</td><td class="num">₹50 cr</td></tr>
+          <tr class="total"><td>Total · ₹4,000/share</td><td class="num">3,12,500</td><td class="num">100%</td><td class="num">Post-money ₹125 cr</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">PE invests <span class="num">₹50 cr</span> at a ₹75 cr pre-money. The founder is below 50% for the first time — control now rests on board seats and shareholder agreements, not raw majority.</p>
+    </div>
+  </div>
+
+  <div class="calc">
+    <div class="k">Live calculator · Dilution &amp; post-money</div>
+    <div class="cgrid">
+      <div class="field"><label>Pre-money (₹ cr)</label><input type="number" id="dl-pre" value="75" step="1"></div>
+      <div class="field"><label>New investment (₹ cr)</label><input type="number" id="dl-raise" value="50" step="1"></div>
+      <div class="field"><label>Your current stake (%)</label><input type="number" id="dl-own" value="53.3" step="0.1"></div>
+    </div>
+    <div class="cout" id="dl-out"></div>
+    <p class="tiny" style="margin-top:8px">Defaults reproduce Alpha's Series B. Try a down round: cut pre-money to 40 and watch the founder's slice get crushed.</p>
+  </div>
+
+  <h3>Instruments &amp; special situations</h3>
+  <details class="acc"><summary>Convertible notes</summary><div class="accbody">A loan that converts into shares at the next round, usually at a <b>discount</b> (15–25%) and/or a <b>valuation cap</b>. Lets early investors fund a startup without arguing about valuation today. Until conversion it is debt; analysts must count it in the fully-diluted share count.</div></details>
+  <details class="acc"><summary>SAFE (Simple Agreement for Future Equity)</summary><div class="accbody">Like a convertible note but <b>not debt</b> — no interest, no maturity. Converts at the next priced round at a cap/discount. Faster and founder-friendly; standard in seed rounds (India's variant: iSAFE).</div></details>
+  <details class="acc"><summary>Bridge rounds</summary><div class="accbody">Short-term funding from <b>existing investors</b> to reach the next milestone or round. Neutral if planned; a <b>distress signal</b> if it arrives because new investors refused to price the company.</div></details>
+  <details class="acc"><summary>Up rounds vs down rounds &amp; anti-dilution</summary><div class="accbody">An <b>up round</b> prices the company above the last round; a <b>down round</b> below it. Down rounds trigger <b>anti-dilution</b> clauses: weighted-average (common, gentler) or full-ratchet (brutal — earlier investors are repriced to the new low price, with the extra shares carved out of the founder's stake).</div></details>
+  <details class="acc"><summary>Exit scenarios — how private investors get paid</summary><div class="accbody">Four doors: <b>IPO</b> (sell to public, like Meridian's OFS in §4), <b>M&amp;A</b> (company is acquired), <b>secondary sale</b> (sell stake to another fund), or <b>buyback</b> by the company/founder. <b>Liquidation preferences</b> (e.g. "1× non-participating") decide who gets paid first if the exit is small.</div></details>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Reading "valued at ₹125 cr" as cash in the bank (only ₹50 cr arrived) · ignoring the ESOP pool when computing dilution · celebrating a high valuation with aggressive liquidation preferences attached — headline price isn't deal quality.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Dilution is the price of fuel. Great founders accept smaller slices of much larger pies; great investors track <em>value per share</em>, never percentage alone.</div>
+</section>
+
+<!-- ============ SECTION 4 ============ -->
+<section class="gsec" id="s4" data-title="IPO masterclass">
+  <div class="shead">
+    <div class="eyebrow">Section 04</div>
+    <h2>IPO Masterclass — The Day a Company Goes Public</h2>
+    <p class="lede">An IPO converts privately negotiated ownership into publicly traded shares. It is part fundraising, part exit, part marketing event — and the moment market capitalization is born.</p>
+  </div>
+
+  <h3>Why companies go public</h3>
+  <div class="grid g4">
+    <div class="card"><div class="k">Capital</div><p class="small">Raise large growth money without repayment.</p></div>
+    <div class="card"><div class="k">Exits</div><p class="small">Early investors and employees convert paper into cash.</p></div>
+    <div class="card"><div class="k">Currency</div><p class="small">Listed shares can fund acquisitions and ESOPs.</p></div>
+    <div class="card"><div class="k">Credibility</div><p class="small">Disclosure, governance and a public price tag.</p></div>
+  </div>
+
+  <h3>The process — Alpha's 2023 IPO</h3>
+  <div class="flow">
+    <div class="step"><h4>Appoint merchant bankers</h4><p class="small">Investment banks (book-running lead managers) value the company, draft the prospectus (DRHP → RHP), market the issue and underwrite execution.</p></div>
+    <div class="step"><h4>Structure the issue — fresh vs OFS</h4><p class="small">Alpha sells <span class="num">20,00,000 <strong>fresh</strong></span> shares (₹100 cr goes <em>to the company</em>) plus a <span class="num">10,00,000</span>-share <strong>offer-for-sale</strong> by Meridian PE (₹50 cr goes <em>to the seller</em>, not Alpha). Always check this split — fresh funds growth; OFS is purely an exit.</p></div>
+    <div class="step"><h4>Price band &amp; book building</h4><p class="small">Band set at <span class="num">₹490–500</span>. Investors bid quantity + price within the band over 3 days; demand discovery ("book building") sets the final cut-off price: <span class="num">₹500</span>.</p></div>
+    <div class="step"><h4>Anchor investors</h4><p class="small">One day before opening, large institutions are allotted shares at the issue price (with a 30/90-day lock-in) to signal confidence and seed the book.</p></div>
+    <div class="step"><h4>Allotment by category</h4><p class="small">SEBI reserves the book: <strong>QIB 50%</strong> (mutual funds, FIIs, insurers), <strong>NII/HNI 15%</strong>, <strong>Retail 35%</strong> (bids up to ₹2 lakh, lot-based, lottery if oversubscribed).</p></div>
+    <div class="step"><h4>Listing day</h4><p class="small">Alpha lists at <span class="num">₹650</span> — a <strong>30% listing gain</strong> over ₹500. Had sentiment soured, a listing <em>loss</em> was equally possible: listing price is demand-driven, not merit-driven.</p></div>
+  </div>
+
+  <div class="alpha"><div class="tag">Alpha · IPO arithmetic</div>
+    <div class="tblwrap" style="margin-top:6px"><table>
+      <thead><tr><th>Item</th><th class="num">Value</th></tr></thead>
+      <tbody>
+        <tr><td>Shares pre-IPO (after 31:1 bonus)</td><td class="num">1,00,00,000</td></tr>
+        <tr><td>Fresh issue @ ₹500</td><td class="num">+20,00,000 → ₹100 cr to company</td></tr>
+        <tr><td>OFS by PE @ ₹500</td><td class="num">10,00,000 → ₹50 cr to Meridian</td></tr>
+        <tr><td>Shares post-IPO</td><td class="num">1,20,00,000</td></tr>
+        <tr class="total"><td>Market cap at issue price ₹500</td><td class="num">₹600 cr</td></tr>
+        <tr class="total"><td>Market cap at listing ₹650</td><td class="num">₹780 cr</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>Where billionaires (on paper) come from</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Holder</th><th class="num">Invested</th><th class="num">Shares post-IPO</th><th class="num">Value @ ₹500</th><th class="num">Multiple</th></tr></thead>
+    <tbody>
+      <tr><td>Ananya (founder)</td><td class="num">₹10 lakh</td><td class="num">32,00,000 (26.7%)</td><td class="num">₹160 cr</td><td class="num"><span class="pill good">1,600×</span></td></tr>
+      <tr><td>Angel (2016)</td><td class="num">₹25 lakh</td><td class="num">8,00,000</td><td class="num">₹40 cr</td><td class="num"><span class="pill good">160×</span></td></tr>
+      <tr><td>Crestline VC (2018)</td><td class="num">₹6.25 cr</td><td class="num">20,00,000</td><td class="num">₹100 cr</td><td class="num"><span class="pill good">16×</span></td></tr>
+      <tr><td>Meridian PE (2020)</td><td class="num">₹50 cr</td><td class="num">30,00,000 + ₹50 cr cash</td><td class="num">₹150 cr + ₹50 cr</td><td class="num"><span class="pill good">4×</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">"Paper wealth" because lock-ins apply: under current SEBI norms the promoter's minimum contribution (20% of post-issue capital) is locked for 18 months, other pre-IPO holders for 6 months, and anchor allotments for 30–90 days. Watch <strong>lock-in expiry dates</strong> — supply often hits the price.</p>
+
+  <h3>IPO vocabulary that moves money</h3>
+  <details class="acc"><summary>Grey Market Premium (GMP)</summary><div class="accbody">The unofficial, unregulated premium at which IPO shares trade before listing. A sentiment thermometer — sometimes predictive, often manipulated, never a substitute for valuation. Alpha's GMP of ₹140 hinted at the 30% pop, but GMPs collapse without warning.</div></details>
+  <details class="acc"><summary>How IPO valuation is actually set</summary><div class="accbody">Bankers triangulate: <b>peer multiples</b> (what do listed comparables trade at on P/E, EV/EBITDA?), <b>DCF</b> as a sanity check, and — decisively — <b>investor feedback</b> from roadshows. The band is then set to leave a small expected pop. IPOs in hot markets are priced for the seller, not the buyer: most listing-day buyers are paying the most optimistic price of the cycle.</div></details>
+  <details class="acc"><summary>Post-listing dynamics</summary><div class="accbody">First weeks: flippers exit, index/ETF inclusion flows arrive, analyst coverage begins, and the first earnings report replaces prospectus promises with facts. Lock-in expiries at month 1, 3, 6 and 18 create supply waves. Many IPOs trade below issue price within a year — entry discipline matters more than allotment luck.</div></details>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Applying for IPOs because of GMP alone · ignoring the fresh/OFS split (a 100% OFS issue funds zero growth) · anchoring to the issue price as "fair value" — it is a negotiated marketing price.</div>
+  <div class="call pro"><b class="cl">Professional usage</b>Institutions read the RHP's risk factors and related-party pages first, model post-money dilution, compare pricing vs listed peers, and frequently skip the IPO to buy after lock-in expiry, when supply is high and hype is gone.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>An IPO is a transaction between informed sellers and excited buyers. Treat it as you would any stock: same statements, same valuation discipline — just with less history and more marketing.</div>
+</section>
+
+<!-- ============ SECTION 5 ============ -->
+<section class="gsec" id="s5" data-title="Market cap & EV">
+  <div class="shead">
+    <div class="eyebrow">Section 05</div>
+    <h2>Market Capitalization &amp; Enterprise Value</h2>
+    <p class="lede">Market cap prices the equity. Enterprise value prices the whole business. Confusing the two is the most common valuation error in retail investing.</p>
+  </div>
+
+  <div class="formula">Market cap = Share price × Outstanding shares = ₹900 × 1,20,00,000 = ₹1,080 cr</div>
+
+  <h3>Size buckets</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Bucket</th><th>India (AMFI/SEBI rule)</th><th>Global rough guide</th><th>Character</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Large cap</strong></td><td>Top 100 companies by m-cap</td><td class="num">&gt; $10B</td><td>Stable, liquid, heavily researched, lower growth</td></tr>
+      <tr><td><strong>Mid cap</strong></td><td>Ranks 101–250</td><td class="num">$2–10B</td><td>Growth + emerging moats; the sweet spot and the trap</td></tr>
+      <tr><td><strong>Small cap</strong></td><td>Rank 251 onwards</td><td class="num">$250M–2B</td><td>High growth, thin coverage, illiquidity risk</td></tr>
+      <tr><td><strong>Micro / nano</strong></td><td>Bottom of the small-cap list</td><td class="num">&lt; $250M / &lt; $50M</td><td>Lottery-ticket dynamics; manipulation-prone</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">AMFI refreshes the India cut-offs every six months from actual ranks — the rupee thresholds drift with the market, the ranks don't. Alpha at ₹1,080 cr sits deep in small-cap territory.</p>
+
+  <h3>Enterprise value — the takeover price</h3>
+  <p>If you bought every Alpha share, you'd also inherit its debts <em>and</em> its cash. EV is what an acquirer truly pays for the operating business:</p>
+  <div class="formula">EV = Market cap + Total debt − Cash &amp; equivalents&#10;Alpha: 1,080 + 100 − 40 = ₹1,140 cr</div>
+  <div class="grid g2">
+    <div class="card"><h4>Why debt adds</h4><p class="small">Buy the equity and the lenders are now <em>your</em> problem — repaying ₹100 cr is part of the purchase. Two companies with identical market caps but different debt are wildly different purchases.</p></div>
+    <div class="card"><h4>Why cash subtracts</h4><p class="small">The ₹40 cr in Alpha's bank comes with the deal — an instant partial refund. A cash-rich company is cheaper than its market cap suggests.</p></div>
+  </div>
+  <div class="alpha"><div class="tag">Takeover thought experiment</div>
+    <p class="small" style="margin:0">Company A: m-cap ₹1,000 cr, debt ₹900 cr, cash ₹50 cr → EV <span class="num"><strong>₹1,850 cr</strong></span>. Company B: m-cap ₹1,000 cr, no debt, cash ₹400 cr → EV <span class="num"><strong>₹600 cr</strong></span>. Same "price" on a screener; B costs an acquirer one-third of A. This is why professionals compare <strong>EV/EBITDA</strong>, never P/E, across firms with different debt loads (§12).</p>
+  </div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Calling a ₹500 share "cheaper" than a ₹5,000 share (price ≠ size ≠ value) · screening highly-leveraged firms by market cap alone · forgetting that minority interest and preferred equity also belong in a full EV bridge.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Market cap is the equity sticker; EV is the all-in invoice. Think like an acquirer and the debt and cash stop being footnotes.</div>
+</section>
+
+<!-- ============ SECTION 6 ============ -->
+<section class="gsec" id="s6" data-title="Financial statements">
+  <div class="shead">
+    <div class="eyebrow">Section 06</div>
+    <h2>Financial Statements Masterclass</h2>
+    <p class="lede">Three documents tell a company's whole story: what it <em>owns and owes</em> (balance sheet), what it <em>earned</em> (income statement), and where cash <em>actually moved</em> (cash flow). Here are Alpha's FY2026 statements, line by line.</p>
+  </div>
+
+  <div class="tabs" data-tabs>
+    <div class="tabbar">
+      <button class="tab-btn active" data-tab="fs1">Balance Sheet</button>
+      <button class="tab-btn" data-tab="fs2">Income Statement</button>
+      <button class="tab-btn" data-tab="fs3">Cash Flow</button>
+      <button class="tab-btn" data-tab="fs4">How they connect</button>
+    </div>
+
+    <div class="tab-panel active" data-panel="fs1">
+      <p class="small"><strong>A snapshot at one instant</strong> (31 Mar 2026). It always balances: Assets = Liabilities + Equity, because every asset is funded by someone's money.</p>
+      <div class="grid g2">
+        <div class="tblwrap"><table>
+          <thead><tr><th>Assets (₹ cr)</th><th class="num">FY26</th></tr></thead>
+          <tbody>
+            <tr><td>Net fixed assets (plant, equipment, after depreciation)</td><td class="num">180</td></tr>
+            <tr><td>Capital work-in-progress (assets under construction)</td><td class="num">20</td></tr>
+            <tr><td>Goodwill &amp; intangibles (acquisitions, software, brands)</td><td class="num">30</td></tr>
+            <tr><td>Inventory (raw material → finished goods)</td><td class="num">70</td></tr>
+            <tr><td>Trade receivables (sold, not yet collected)</td><td class="num">90</td></tr>
+            <tr><td>Cash &amp; equivalents</td><td class="num">40</td></tr>
+            <tr><td>Other assets (deposits, deferred tax asset, investments)</td><td class="num">70</td></tr>
+            <tr class="total"><td>Total assets</td><td class="num">500</td></tr>
+          </tbody>
+        </table></div>
+        <div class="tblwrap"><table>
+          <thead><tr><th>Equity &amp; liabilities (₹ cr)</th><th class="num">FY26</th></tr></thead>
+          <tbody>
+            <tr><td>Share capital (1.2 cr sh × ₹10 FV)</td><td class="num">12</td></tr>
+            <tr><td>Reserves &amp; surplus (premium + retained profits)</td><td class="num">288</td></tr>
+            <tr class="sub"><td><em>Total equity (net worth)</em></td><td class="num"><em>300</em></td></tr>
+            <tr><td>Borrowings (long-term 80 + short-term 20)</td><td class="num">100</td></tr>
+            <tr><td>Trade payables (owed to suppliers)</td><td class="num">60</td></tr>
+            <tr><td>Other liabilities (provisions, deferred tax liability)</td><td class="num">40</td></tr>
+            <tr class="total"><td>Total equity + liabilities</td><td class="num">500</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <details class="acc"><summary>Line items that confuse everyone</summary><div class="accbody"><b>Goodwill</b> = price paid in an acquisition above the target's identifiable net assets; it is never "built", only bought, and gets impaired when deals sour. <b>CWIP</b> = capex not yet operational — large, ageing CWIP that never commissions is a fraud tell. <b>Deferred tax</b> = timing gaps between book and tax depreciation. <b>Minority (non-controlling) interest</b> = the slice of consolidated subsidiaries you <em>don't</em> own — subtract it when valuing the parent's shareholders.</div></details>
+    </div>
+
+    <div class="tab-panel" data-panel="fs2">
+      <p class="small"><strong>A film over one period</strong> (FY26). Revenue at the top, a series of cost subtractions, profit at the bottom.</p>
+      <div class="tblwrap"><table>
+        <thead><tr><th>Income statement (₹ cr)</th><th class="num">FY26</th><th class="num">% of revenue</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Revenue from operations</strong></td><td class="num">500</td><td class="num">100%</td></tr>
+          <tr><td>− Cost of goods/services (materials, cloud, delivery)</td><td class="num">(275)</td><td class="num">55%</td></tr>
+          <tr class="sub"><td><em>Gross profit</em></td><td class="num"><em>225</em></td><td class="num"><em>45%</em></td></tr>
+          <tr><td>− Selling, general &amp; admin</td><td class="num">(80)</td><td class="num">16%</td></tr>
+          <tr><td>− R&amp;D / product</td><td class="num">(25)</td><td class="num">5%</td></tr>
+          <tr class="sub"><td><em>EBITDA</em></td><td class="num"><em>120</em></td><td class="num"><em>24%</em></td></tr>
+          <tr><td>− Depreciation &amp; amortization (non-cash)</td><td class="num">(25)</td><td class="num">5%</td></tr>
+          <tr class="sub"><td><em>EBIT / operating profit</em></td><td class="num"><em>95</em></td><td class="num"><em>19%</em></td></tr>
+          <tr><td>− Interest (finance costs)</td><td class="num">(15)</td><td class="num">3%</td></tr>
+          <tr class="sub"><td><em>Profit before tax</em></td><td class="num"><em>80</em></td><td class="num"><em>16%</em></td></tr>
+          <tr><td>− Tax @ 25%</td><td class="num">(20)</td><td class="num">4%</td></tr>
+          <tr class="total"><td>Profit after tax (PAT) · EPS = 60 ÷ 1.2 cr = ₹50</td><td class="num">60</td><td class="num">12%</td></tr>
+        </tbody>
+      </table></div>
+      <details class="acc"><summary>Depreciation vs amortization — and why they're "non-cash"</summary><div class="accbody"><b>Depreciation</b> spreads the cost of tangible assets (machines) over their life; <b>amortization</b> does the same for intangibles (software, licences). Cash left when the asset was bought (capex); the P&amp;L charge each year is an accounting allocation. That's why D&amp;A is added back in cash flow — but the capex it represents is brutally real (§10).</div></details>
+    </div>
+
+    <div class="tab-panel" data-panel="fs3">
+      <p class="small"><strong>Where cash actually moved</strong> — the statement accruals cannot fake for long. Three buckets:</p>
+      <div class="tblwrap"><table>
+        <thead><tr><th>Cash flow statement (₹ cr)</th><th class="num">FY26</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Operating (CFO):</strong> PAT 60 + D&amp;A 25 − working-capital increase 15</td><td class="num">+70</td></tr>
+          <tr><td><strong>Investing (CFI):</strong> capex −40, investments −5</td><td class="num">−45</td></tr>
+          <tr><td><strong>Financing (CFF):</strong> dividends −12, net borrowing −3</td><td class="num">−15</td></tr>
+          <tr class="total"><td>Net change in cash (opening 30 → closing 40)</td><td class="num">+10</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">The healthiest pattern for a mature company: <span class="pill good">CFO strongly +</span> <span class="pill neut">CFI −(growth capex)</span> <span class="pill neut">CFF −(returning cash)</span>. The scariest: CFO negative while CFF positive — the company survives on new money. Section 10 goes deep.</p>
+    </div>
+
+    <div class="tab-panel" data-panel="fs4">
+      <div class="flow">
+        <div class="step"><h4>PAT links P&amp;L → balance sheet</h4><p class="small">FY26 PAT ₹60 cr − dividends ₹12 cr = ₹48 cr added to reserves, growing equity.</p></div>
+        <div class="step"><h4>PAT also opens the cash flow statement</h4><p class="small">CFO starts from profit, reverses non-cash items, adjusts working capital.</p></div>
+        <div class="step"><h4>Closing cash returns to the balance sheet</h4><p class="small">The ₹40 cr cash line is the cash-flow statement's ending balance.</p></div>
+        <div class="step"><h4>Capex builds assets; depreciation drains them</h4><p class="small">CFI's capex raises fixed assets/CWIP; the P&amp;L's D&amp;A writes them down over years.</p></div>
+      </div>
+      <div class="call pro"><b class="cl">Professional usage</b>Analysts build "three-statement models" where these links are formulas — change one assumption (say, receivable days) and watch profit, cash and balance sheet move together. If a company's reported statements <em>don't</em> tie together, that itself is a finding.</div>
+    </div>
+  </div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Reading only the P&amp;L (profit is an opinion; cash is a fact) · ignoring notes to accounts, where contingent liabilities, related parties and accounting-policy changes hide · comparing standalone numbers for one firm with consolidated for another.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>One statement can be dressed up; three consistent statements over ten years are very hard to fake. Always read them as a system.</div>
+</section>
+
+<!-- ============ SECTION 7 ============ -->
+<section class="gsec" id="s7" data-title="Profitability">
+  <div class="shead">
+    <div class="eyebrow">Section 07</div>
+    <h2>Revenue &amp; Profitability — The Margin Waterfall</h2>
+    <p class="lede">Profit is not one number; it is a staircase. Each step down reveals a different layer of business quality — product economics, operating discipline, capital structure, tax.</p>
+  </div>
+
+  <div class="water" aria-label="Alpha margin waterfall">
+    <div class="wcol"><span class="wv">₹500</span><i style="height:160px;background:linear-gradient(180deg,var(--blue),color-mix(in srgb,var(--blue) 70%,#000))"></i><span class="wl">Revenue<br>100%</span></div>
+    <div class="wcol"><span class="wv">₹225</span><i style="height:72px;background:linear-gradient(180deg,var(--gold),var(--gold-strong))"></i><span class="wl">Gross profit<br>45%</span></div>
+    <div class="wcol"><span class="wv">₹120</span><i style="height:38px;background:linear-gradient(180deg,var(--gold),var(--gold-strong))"></i><span class="wl">EBITDA<br>24%</span></div>
+    <div class="wcol"><span class="wv">₹95</span><i style="height:30px;background:linear-gradient(180deg,var(--gold),var(--gold-strong))"></i><span class="wl">EBIT<br>19%</span></div>
+    <div class="wcol"><span class="wv">₹80</span><i style="height:26px;background:linear-gradient(180deg,var(--green),color-mix(in srgb,var(--green) 70%,#000))"></i><span class="wl">PBT<br>16%</span></div>
+    <div class="wcol"><span class="wv">₹60</span><i style="height:19px;background:linear-gradient(180deg,var(--green),color-mix(in srgb,var(--green) 70%,#000))"></i><span class="wl">PAT<br>12%</span></div>
+  </div>
+  <p class="tiny" style="text-align:center">Alpha FY26, ₹ crore. Every rupee of revenue loses 88 paise on the way down — the question is <em>where</em> and <em>why</em>.</p>
+
+  <h3>Each margin, decoded</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Gross margin — product economics</h4>
+      <div class="formula">GM = (Revenue − COGS) ÷ Revenue = 225/500 = 45%</div>
+      <p class="small">Measures pricing power and input costs before any overheads. <span class="pill good">Software 70–90%</span> <span class="pill neut">FMCG 40–55%</span> <span class="pill warn">Retail/distribution 5–25%</span>. A <em>falling</em> gross margin means competition or input inflation is winning.</p></div>
+    <div class="card"><h4>EBITDA margin — operating engine, pre-accounting</h4>
+      <div class="formula">EBITDA ÷ Revenue = 120/500 = 24%</div>
+      <p class="small">Earnings before interest, tax, depreciation, amortization — proxy for operating cash power, comparable across capital structures. Beware: for asset-heavy firms EBITDA flatters, since depreciation is a real future cost ("EBITDA is profit before the bad stuff").</p></div>
+    <div class="card"><h4>Operating (EBIT) margin — the honest one</h4>
+      <div class="formula">EBIT ÷ Revenue = 95/500 = 19%</div>
+      <p class="small">Includes D&amp;A, excludes financing and tax. The cleanest measure of how well operations convert sales into profit. Stable or rising EBIT margin through a downcycle is a moat signature (§13).</p></div>
+    <div class="card"><h4>Net margin — what shareholders keep</h4>
+      <div class="formula">PAT ÷ Revenue = 60/500 = 12%</div>
+      <p class="small">After everything. Compare only within an industry: 12% is excellent for retail, mediocre for software. Watch for net margin propped up by "other income" (treasury gains) rather than operations.</p></div>
+  </div>
+
+  <h3>Unit economics — profitability before the P&amp;L can see it</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Contribution margin</h4>
+      <div class="formula">(Price − Variable cost per unit) ÷ Price</div>
+      <p class="small">Profit per incremental unit before fixed costs. Positive contribution + scale → operating leverage; negative contribution means growth literally manufactures losses.</p></div>
+    <div class="card"><h4>CAC, LTV &amp; cohorts</h4>
+      <div class="formula">LTV = ARPU × Gross margin × Avg customer lifetime&#10;Health: LTV/CAC ≥ 3× · CAC payback ≤ 12–18 months</div>
+      <p class="small">Alpha's SaaS line: CAC ₹4,000; ARPU ₹500/month at 80% GM; 2% monthly churn → ~50-month life → LTV ₹20,000 → <strong>LTV/CAC 5×</strong>, payback 10 months. <strong>Cohort analysis</strong> tracks each joining-month's customers over time — flat or rising cohort revenue curves are the strongest evidence of product-market fit.</p></div>
+  </div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Comparing margins across industries · trusting "adjusted EBITDA" that adds back recurring costs (ESOPs, "one-time" items every year) · ignoring operating leverage — small revenue moves swing profits violently when fixed costs dominate.</div>
+  <div class="call pro"><b class="cl">Professional usage</b>Analysts decompose margin <em>changes</em>: price vs volume vs mix vs input costs vs operating leverage. The narrative behind a 200 bps margin move matters more than the number.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Margins are the business model rendered in percentages. Learn an industry's normal staircase, then hunt for companies that consistently stand a few steps above it.</div>
+</section>
+
+<!-- ============ SECTION 8 ============ -->
+<section class="gsec" id="s8" data-title="Return metrics">
+  <div class="shead">
+    <div class="eyebrow">Section 08</div>
+    <h2>Return Metrics — How Hard Does Capital Work?</h2>
+    <p class="lede">Margins ask "how much profit per rupee of sales?" Returns ask the deeper question: "how much profit per rupee of <em>capital</em>?" Long-run stock returns gravitate toward returns on capital.</p>
+  </div>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Metric</th><th>Formula</th><th class="num">Alpha FY26</th><th>Answers</th><th>Benchmark</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ROE</strong></td><td class="num">PAT ÷ Equity</td><td class="num">60/300 = 20%</td><td>Return on shareholders' money</td><td><span class="pill good">&gt;15% good · &gt;20% excellent</span></td></tr>
+      <tr><td><strong>ROCE</strong></td><td class="num">EBIT ÷ (Equity + Debt)</td><td class="num">95/400 = 23.8%</td><td>Return on all long-term capital, pre-financing</td><td><span class="pill good">&gt; cost of capital (~12–14%)</span></td></tr>
+      <tr><td><strong>ROA</strong></td><td class="num">PAT ÷ Total assets</td><td class="num">60/500 = 12%</td><td>Asset efficiency (key for banks)</td><td><span class="pill neut">industry-specific</span></td></tr>
+      <tr><td><strong>ROIC</strong></td><td class="num">NOPAT ÷ Invested capital</td><td class="num">71.25/360 = 19.8%</td><td>Return on capital actually deployed in operations</td><td><span class="pill good">ROIC − WACC = value creation</span></td></tr>
+      <tr><td><strong>ROI</strong></td><td class="num">Gain ÷ Cost</td><td class="num">project-level</td><td>Generic project return</td><td><span class="pill neut">context</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">NOPAT = EBIT × (1 − tax) = 95 × 0.75 = ₹71.25 cr. Invested capital = equity 300 + debt 100 − non-operating cash 40 = ₹360 cr.</p>
+
+  <h3>DuPont analysis — opening the ROE engine</h3>
+  <p>ROE is three machines multiplied together. DuPont tells you <em>which</em> machine produces the return — and whether it's the dangerous one.</p>
+  <div class="formula">ROE = Net margin × Asset turnover × Leverage&#10;Alpha: 12% × (500/500 = 1.0×) × (500/300 = 1.67×) = 20%</div>
+  <div class="grid g3">
+    <div class="card"><div class="k">Profitability</div><h4>Net margin 12%</h4><p class="small">Earn more per sale. The pharma/luxury path: high-margin, moderate turnover.</p></div>
+    <div class="card"><div class="k">Efficiency</div><h4>Asset turnover 1.0×</h4><p class="small">Sell more per rupee of assets. The retail path: razor margins, furious turnover.</p></div>
+    <div class="card"><div class="k">Leverage</div><h4>Equity multiplier 1.67×</h4><p class="small">Amplify with debt. The fragile path: a 30% ROE built on 5× leverage is a different animal from a debt-free 30%.</p></div>
+  </div>
+  <div class="vs">
+    <div class="side goodside"><h4>Quality 20% ROE</h4><p class="small">14% margin × 1.4× turnover × 1.0× leverage. No debt; the return is pure business quality. Survives recessions, compounds quietly.</p></div>
+    <div class="side badside"><h4>Fragile 20% ROE</h4><p class="small">4% margin × 1.0× turnover × 5.0× leverage. The same headline ROE — but one bad year of margins wipes equity. DuPont exposes the difference instantly.</p></div>
+  </div>
+
+  <details class="acc"><summary>What returns reveal about management</summary><div class="accbody">Management's core job is <b>capital allocation</b>: every retained rupee should earn more than shareholders could elsewhere. A firm holding ROCE &gt; 20% for a decade while <em>growing</em> is exhibiting both a moat and a disciplined allocator. ROCE sliding as the company grows means new capital earns less than old — "diworsification" in progress.</div></details>
+  <details class="acc"><summary>Industry exceptions</summary><div class="accbody"><b>Banks/NBFCs</b>: leverage is the business model — use ROA (&gt;1.5% strong) and ROE together, never ROCE. <b>Capital-intensive cyclicals</b> (steel, cement): judge returns across a full cycle, not the peak year. <b>Asset-light platforms</b>: ROE can be astronomical on tiny equity — sanity-check with absolute profit pools.</div></details>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Chasing high ROE without checking leverage · using one boom year instead of a 5–10 year average · ignoring that buybacks shrink equity and cosmetically inflate ROE.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Over a decade, your return converges toward the business's return on capital. Buy high-ROIC businesses that can <em>reinvest</em> at those rates — that combination is the compounding machine.</div>
+</section>
+
+<!-- ============ SECTION 9 ============ -->
+<section class="gsec" id="s9" data-title="Leverage & risk">
+  <div class="shead">
+    <div class="eyebrow">Section 09</div>
+    <h2>Leverage, Liquidity &amp; Survival Risk</h2>
+    <p class="lede">Debt is an amplifier: it magnifies returns on the way up and destroys equity on the way down. Most permanent capital loss in markets traces back to balance sheets, not bad products.</p>
+  </div>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Ratio</th><th>Formula</th><th class="num">Alpha FY26</th><th>Healthy zone</th><th>Danger zone</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Debt-to-equity</strong></td><td class="num">Total debt ÷ Equity</td><td class="num">100/300 = 0.33</td><td><span class="pill good">&lt; 0.5 comfortable</span></td><td><span class="pill bad">&gt; 2 fragile (non-financials)</span></td></tr>
+      <tr><td><strong>Current ratio</strong></td><td class="num">Current assets ÷ Current liabilities</td><td class="num">240/120 = 2.0</td><td><span class="pill good">1.5 – 2.5</span></td><td><span class="pill bad">&lt; 1 = bills exceed near-cash</span></td></tr>
+      <tr><td><strong>Quick ratio</strong></td><td class="num">(CA − Inventory) ÷ CL</td><td class="num">170/120 = 1.4</td><td><span class="pill good">&gt; 1</span></td><td><span class="pill bad">&lt; 0.5</span></td></tr>
+      <tr><td><strong>Interest coverage</strong></td><td class="num">EBIT ÷ Interest</td><td class="num">95/15 = 6.3×</td><td><span class="pill good">&gt; 4× safe</span></td><td><span class="pill bad">&lt; 2× — one bad year from default</span></td></tr>
+      <tr><td><strong>Net debt / EBITDA</strong></td><td class="num">(Debt − Cash) ÷ EBITDA</td><td class="num">60/120 = 0.5×</td><td><span class="pill good">&lt; 2×</span></td><td><span class="pill bad">&gt; 4× — lender territory</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>The three ways leverage kills</h3>
+  <div class="grid g3">
+    <div class="card"><div class="k">Solvency / bankruptcy risk</div><p class="small">Liabilities outgrow asset values; equity is wiped. Watch persistent losses + rising debt + shrinking net worth.</p></div>
+    <div class="card"><div class="k">Liquidity risk</div><p class="small">Solvent on paper, but cash isn't there <em>today</em>. Profitable firms die of liquidity — payroll doesn't accept receivables.</p></div>
+    <div class="card"><div class="k">Refinancing / credit risk</div><p class="small">Debt maturing into a frozen credit market or a downgrade. Check the <strong>maturity schedule</strong> in the annual report — lumpy near-term maturities are the fuse.</p></div>
+  </div>
+
+  <h3>Working capital — the daily oxygen</h3>
+  <div class="formula">Working capital = Current assets − Current liabilities = 240 − 120 = ₹120 cr</div>
+  <p class="small">Funds the gap between paying suppliers and collecting from customers. Growing companies often consume cash <em>because</em> they grow — receivables and inventory scale with sales. Negative working capital can be a superpower (customers pay before suppliers are paid — FMCG, platforms) or a death spiral (unpaid suppliers), context decides.</p>
+
+  <details class="acc"><summary>Industry differences — when "high debt" is normal</summary><div class="accbody"><b>Banks/NBFCs</b>: leverage IS the model; judge by capital adequacy (CAR/Tier-1), not D/E. <b>Utilities/infra</b>: 1.5–3× D/E acceptable against contracted cash flows. <b>IT/FMCG/pharma</b>: should be near debt-free; any large debt demands an explanation. Always compare to sector norms and the <em>stability</em> of cash flows servicing the debt.</div></details>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Looking at D/E but not maturity timing · ignoring off-balance-sheet leases, guarantees and pledged promoter shares · admiring ROE that is actually leverage in disguise (§8).</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>First question of risk analysis: <em>can this company survive a terrible two years?</em> If the balance sheet can't say yes, the growth story is irrelevant.</div>
+</section>
+
+<!-- ============ SECTION 10 ============ -->
+<section class="gsec" id="s10" data-title="Cash flow analysis">
+  <div class="shead">
+    <div class="eyebrow">Section 10</div>
+    <h2>Cash Flow Analysis — Profit Is Opinion, Cash Is Fact</h2>
+    <p class="lede">Accrual accounting records revenue when <em>earned</em>, not when <em>paid</em>. That flexibility is useful — and abusable. Cash flow is the audit trail that keeps profit honest.</p>
+  </div>
+
+  <h3>Free cash flow — the owner's number</h3>
+  <div class="formula">FCF = Operating cash flow − Capex = 70 − 40 = ₹30 cr&#10;FCF yield = FCF ÷ Market cap = 30 ÷ 1,080 = 2.8%</div>
+  <div class="grid g2">
+    <div class="card"><h4>Owner earnings (Buffett)</h4><p class="small">PAT + D&amp;A − <em>maintenance</em> capex ± working-capital changes. The cash an owner could pocket while keeping competitive position intact. Distinguishing maintenance capex from growth capex is the art — growth capex is a choice, maintenance is a tax.</p></div>
+    <div class="card"><h4>Why profit ≠ cash</h4><p class="small">Sell ₹100 cr on credit: profit recognized today, cash maybe next year (receivables ↑). Build inventory: cash out, no P&amp;L impact yet. Buy a machine: cash out now, P&amp;L cost spread over 10 years. Each gap is legitimate — until it isn't.</p></div>
+  </div>
+
+  <h3>Cash conversion cycle — how long money is trapped</h3>
+  <div class="formula">CCC = DIO + DSO − DPO&#10;Alpha: 93 days (inventory) + 66 days (receivables) − 80 days (payables) = 79 days</div>
+  <p class="small">Alpha's rupee spends 79 days inside the business between paying suppliers and collecting from customers. Shorter is better; a <em>lengthening</em> CCC while sales grow is an early-warning siren — fake sales park themselves in receivables.</p>
+
+  <h3>The fraud detector: CFO vs PAT</h3>
+  <div class="vs">
+    <div class="side goodside"><h4>Healthy: Alpha</h4>
+      <div class="tblwrap"><table><thead><tr><th></th><th class="num">FY24</th><th class="num">FY25</th><th class="num">FY26</th></tr></thead>
+      <tbody><tr><td>PAT</td><td class="num">42</td><td class="num">51</td><td class="num">60</td></tr>
+      <tr><td>CFO</td><td class="num">48</td><td class="num">59</td><td class="num">70</td></tr>
+      <tr class="total"><td>CFO/PAT</td><td class="num">114%</td><td class="num">116%</td><td class="num">117%</td></tr></tbody></table></div>
+      <p class="small">Cumulative CFO ≥ cumulative PAT over 5 years (D&amp;A makes &gt;100% normal). Profits are turning into bank balance.</p></div>
+    <div class="side badside"><h4>Suspect pattern</h4>
+      <div class="tblwrap"><table><thead><tr><th></th><th class="num">Y1</th><th class="num">Y2</th><th class="num">Y3</th></tr></thead>
+      <tbody><tr><td>PAT</td><td class="num">40</td><td class="num">55</td><td class="num">75</td></tr>
+      <tr><td>CFO</td><td class="num">22</td><td class="num">10</td><td class="num">−5</td></tr>
+      <tr class="total"><td>Receivable days</td><td class="num">70</td><td class="num">110</td><td class="num">165</td></tr></tbody></table></div>
+      <p class="small">Booming "profits", vanishing cash, ballooning receivables — the classic signature of aggressive or fictitious revenue (Satyam's playbook, §14).</p></div>
+  </div>
+
+  <details class="acc"><summary>Reading the three buckets like a pro</summary><div class="accbody"><b>CFO</b> should fund the company's life. <b>CFI</b> shows ambition — sustained capex with rising ROCE is good; capex with falling returns is empire-building. <b>CFF</b> shows dependence — perpetual fundraising means the business model hasn't closed the loop. Map the triplet's <em>signs</em> over 10 years and the company's life stage appears: startup (−,−,+), growth (+,−,+), mature (+,−,−), decline (+,+,−) as it sells assets to pay debt.</div></details>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Loving "asset-light high-EBITDA" stories without checking capex hidden in "intangible additions" · annualizing one strong cash quarter (working capital is seasonal) · ignoring interest and lease outflows when computing FCF under Ind AS.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Over ten years, a real business turns most of its profit into spendable cash. If it never has, you don't own earnings — you own accounting entries.</div>
+</section>
+
+<!-- ============ SECTION 11 ============ -->
+<section class="gsec" id="s11" data-title="Shareholder value">
+  <div class="shead">
+    <div class="eyebrow">Section 11</div>
+    <h2>Shareholder Value Creation — Dividends, Buybacks &amp; Compounding</h2>
+    <p class="lede">A company creates value by earning high returns; it <em>delivers</em> value through capital allocation: reinvest, acquire, repay debt, buy back, or pay out. Judging those choices is half of investing.</p>
+  </div>
+
+  <div class="grid g2">
+    <div class="card"><h4>Dividends</h4>
+      <div class="formula">Dividend yield = DPS ÷ Price = 10 ÷ 900 = 1.1%&#10;Payout ratio = Dividends ÷ PAT = 12 ÷ 60 = 20%</div>
+      <p class="small">Cash returned per share. Low payout + high ROCE = rational reinvestment. High payout + no growth = a bond-like "cash cow". A yield that looks huge because the <em>price</em> collapsed is a trap, not a gift. <strong>Special dividends</strong> return one-off windfalls (asset sales) without committing to a higher run-rate.</p></div>
+    <div class="card"><h4>Buybacks</h4>
+      <div class="formula">EPS after buyback = PAT ÷ (Shares − Bought back)&#10;₹60 cr ÷ 1.1 cr = ₹54.5 (+9%)</div>
+      <p class="small">Value-creating only when shares trade <em>below</em> intrinsic value and the cash is genuinely surplus. Buybacks that merely mop up ESOP issuance, or are done at euphoric prices, transfer wealth from continuing holders to sellers.</p></div>
+  </div>
+
+  <h3>The capital-allocation hierarchy</h3>
+  <div class="flow">
+    <div class="step"><h4>1 · Reinvest in the core</h4><p class="small">If incremental ROIC &gt; WACC, every retained rupee compounds. This is Alpha's current mode (payout only 20%).</p></div>
+    <div class="step"><h4>2 · Acquire — carefully</h4><p class="small">Most acquisitions destroy value via overpayment (the goodwill graveyard, §14). Judge management's deal history ruthlessly.</p></div>
+    <div class="step"><h4>3 · Repay debt</h4><p class="small">A guaranteed return equal to the interest rate, plus survival insurance.</p></div>
+    <div class="step"><h4>4 · Buy back below intrinsic value</h4><p class="small">Concentrates ownership for those who stay.</p></div>
+    <div class="step"><h4>5 · Pay dividends</h4><p class="small">The honest default when no better use exists.</p></div>
+  </div>
+
+  <h3>Total shareholder return &amp; the compounding engine</h3>
+  <div class="formula">Total return = Price appreciation + Dividends (reinvested)&#10;Long-run driver: Return ≈ EPS growth ± P/E re-rating + dividend yield</div>
+  <div class="calc">
+    <div class="k">Live calculator · The cost of waiting</div>
+    <div class="cgrid">
+      <div class="field"><label>Monthly investment (₹)</label><input type="number" id="cp-amt" value="10000" step="1000"></div>
+      <div class="field"><label>Annual return (%)</label><input type="number" id="cp-r" value="13" step="0.5"></div>
+      <div class="field"><label>Years</label><input type="number" id="cp-y" value="25" step="1"></div>
+    </div>
+    <div class="cout" id="cp-out"></div>
+    <p class="tiny" style="margin-top:8px">Try 25 vs 15 years: the final decade typically creates more wealth than the first two combined. Compounding is back-loaded — which is why holding quality matters more than trading it.</p>
+  </div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Chasing dividend yield into dying businesses · applauding buybacks funded by debt · ignoring that retained earnings belong to you — demand they earn their keep.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Judge management like a fund manager: their portfolio is the company's cash flow, and their track record is written in ROIC, deal history and per-share value growth.</div>
+</section>
+
+<!-- ============ SECTION 12 : VALUATION ============ -->
+<section class="gsec" id="s12" data-title="Valuation masterclass">
+  <div class="shead">
+    <div class="eyebrow">Section 12</div>
+    <h2>Valuation Masterclass — Price Is What You Pay, Value Is What You Get</h2>
+    <p class="lede">A great company bought at the wrong price is a bad investment. Valuation is the discipline of estimating what a business is worth — through <strong>relative</strong> multiples (vs peers &amp; history) and <strong>absolute</strong> models (DCF) — then demanding a margin of safety.</p>
+  </div>
+
+  <h3>The multiples toolkit — Alpha at ₹900</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Multiple</th><th>Formula</th><th class="num">Alpha</th><th>Best for</th><th>Watch out</th></tr></thead>
+    <tbody>
+      <tr><td><strong>P/E</strong></td><td>Price ÷ EPS</td><td class="num">900 ÷ 50 = 18×</td><td>Stable, profitable firms</td><td>Meaningless on losses; distorted by one-offs</td></tr>
+      <tr><td><strong>Forward P/E</strong></td><td>Price ÷ next-yr EPS</td><td class="num">900 ÷ 59 ≈ 15.3×</td><td>Pricing the future, not the past</td><td>Estimates are guesses — verify the "E"</td></tr>
+      <tr><td><strong>PEG</strong></td><td>P/E ÷ EPS growth %</td><td class="num">18 ÷ 18 ≈ 1.0</td><td>Comparing growth stocks</td><td>Assumes growth is durable &amp; linear</td></tr>
+      <tr><td><strong>P/B</strong></td><td>Price ÷ Book value/sh</td><td class="num">900 ÷ 250 = 3.6×</td><td>Banks, financials, asset-heavy</td><td>Book ≠ worth for asset-light firms</td></tr>
+      <tr><td><strong>EV/EBITDA</strong></td><td>EV ÷ EBITDA</td><td class="num">1,140 ÷ 120 = 9.5×</td><td>Comparing across capital structures</td><td>EBITDA ignores capex &amp; interest reality</td></tr>
+      <tr><td><strong>EV/Sales</strong></td><td>EV ÷ Revenue</td><td class="num">1,140 ÷ 500 = 2.3×</td><td>Loss-making / early-stage</td><td>Revenue without profit can be bought</td></tr>
+      <tr><td><strong>P/S</strong></td><td>Mcap ÷ Revenue</td><td class="num">1,080 ÷ 500 = 2.2×</td><td>Quick screens</td><td>Ignores debt entirely — prefer EV/Sales</td></tr>
+      <tr><td><strong>FCF yield</strong></td><td>FCF ÷ Mcap</td><td class="num">30 ÷ 1,080 = 2.8%</td><td>Cash-based reality check</td><td>Lumpy capex years distort it</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alpha"><span class="tag">Reading Alpha</span> 18× earnings for 18% growth (PEG ≈ 1.0) with ROE 20% and net debt just 0.5× EBITDA — a "fair price for a good business". Whether that's attractive depends on how durable the 18% growth is. That question is answered by Sections 13–15, not by the multiple itself.</div>
+
+  <div class="vs">
+    <div class="side goodside"><h4>Relative valuation</h4><p class="small">Compare multiples vs <strong>peers</strong> and vs the company's <strong>own 5–10 yr history</strong>. Fast, market-grounded, great for spotting outliers. Weakness: if the whole sector is overpriced, "cheap vs peers" still loses money.</p></div>
+    <div class="side badside" style="border-color:var(--gold)"><h4>Absolute valuation (DCF)</h4><p class="small">Value = present value of all future free cash flows. Forces you to make assumptions <em>explicit</em>. Weakness: tiny input changes swing the answer — treat it as a range generator, not an oracle.</p></div>
+  </div>
+
+  <h3>DCF, step by step</h3>
+  <div class="flow">
+    <div class="step"><h4>1 · Project FCF</h4><p class="small">5–10 yrs of free cash flow. Alpha: ₹30 cr growing ~18%.</p></div>
+    <div class="step"><h4>2 · Pick discount rate</h4><p class="small">WACC — the return investors require for the risk.</p></div>
+    <div class="step"><h4>3 · Terminal value</h4><p class="small">Worth of all cash flows beyond year 5–10.</p></div>
+    <div class="step"><h4>4 · Discount &amp; sum</h4><p class="small">PV of FCFs + PV of terminal = Enterprise value.</p></div>
+    <div class="step"><h4>5 · To equity</h4><p class="small">− Net debt ÷ shares = intrinsic value per share.</p></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card"><h4>WACC — the discount rate</h4>
+      <div class="formula">Ke (CAPM) = Rf + β × ERP = 7% + 1.0 × 7% = 14%&#10;Kd after tax = 9% × (1 − 25%) = 6.75%&#10;WACC = 14% × (1080/1180) + 6.75% × (100/1180) ≈ 13.4%</div>
+      <p class="small">Equity is the expensive capital because shareholders bear first loss. Higher business risk → higher β → higher WACC → lower present value. India's risk-free rate (10-yr G-Sec ~7%) sets the floor.</p></div>
+    <div class="card"><h4>Terminal value — handle with care</h4>
+      <div class="formula">TV = FCF₅ × (1+g) ÷ (WACC − g)&#10;g must be ≤ long-run GDP growth (~4–5%)</div>
+      <p class="small">TV is often 60–75% of the whole DCF — which means most of your "precise" valuation is a guess about the distant future. If your answer collapses when g moves from 5% to 4%, you don't have a thesis, you have a spreadsheet.</p></div>
+  </div>
+
+  <div class="calc">
+    <div class="k">Live calculator · 5-year DCF on Alpha</div>
+    <div class="cgrid">
+      <div class="field"><label>Year-0 FCF (₹ cr)</label><input type="number" id="dc-fcf" value="30" step="1"></div>
+      <div class="field"><label>Growth yrs 1–5 (%)</label><input type="number" id="dc-g" value="18" step="1"></div>
+      <div class="field"><label>Terminal growth (%)</label><input type="number" id="dc-tg" value="5" step="0.5"></div>
+      <div class="field"><label>WACC (%)</label><input type="number" id="dc-r" value="13" step="0.5"></div>
+      <div class="field"><label>Net debt (₹ cr)</label><input type="number" id="dc-nd" value="60" step="10"></div>
+      <div class="field"><label>Shares (cr)</label><input type="number" id="dc-sh" value="1.2" step="0.1"></div>
+      <div class="field"><label>Market price (₹)</label><input type="number" id="dc-px" value="900" step="10"></div>
+    </div>
+    <div class="cout" id="dc-out"></div>
+    <p class="tiny" style="margin-top:8px">Default inputs value Alpha well below ₹900 — deliberately. Today's FCF (₹30 cr) is depressed by heavy growth capex. Try FCF ₹55 cr (closer to owner earnings) or growth 22%: the verdict flips. <strong>That sensitivity is the lesson</strong> — DCF tells you which assumptions you're paying for.</p>
+  </div>
+
+  <h3>Margin of safety</h3>
+  <div class="formula">Margin of safety = (Intrinsic value − Price) ÷ Intrinsic value&#10;Professional habit: demand 25–40% before buying</div>
+  <p class="small">Because every valuation is wrong, the buffer is the strategy. A 30% margin of safety means your future can disappoint by a third before you lose. Risk control happens at <em>purchase</em>, not in the stop-loss.</p>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Comparing P/E across industries · using EBITDA multiples for banks · terminal growth &gt; GDP · treating a DCF point-estimate as truth · anchoring to the 52-week high as "value".</div>
+  <div class="call pro"><b class="cl">How professionals use it</b>Triangulate: DCF range + peer multiples + own-history multiples + reverse-DCF ("what growth does ₹900 imply?"). If the price needs heroic assumptions, pass.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Valuation is a discipline of humility: build a range, demand a discount to it, and let the margin of safety absorb your inevitable errors.</div>
+</section>
+
+<!-- ============ SECTION 13 : BUSINESS QUALITY ============ -->
+<section class="gsec" id="s13" data-title="Business quality">
+  <div class="shead">
+    <div class="eyebrow">Section 13</div>
+    <h2>Business Quality — Moats, Industry Structure &amp; Management</h2>
+    <p class="lede">Numbers tell you what happened; quality analysis tells you whether it will <em>keep</em> happening. High returns on capital attract competitors — a <strong>moat</strong> is whatever stops them from eroding those returns.</p>
+  </div>
+
+  <h3>The five great moats</h3>
+  <div class="grid g3">
+    <div class="card"><h4>Network effects</h4><p class="small">Each user makes the product more valuable to others (exchanges, payment networks, marketplaces). Winner-take-most dynamics; near-impossible to displace once critical mass is reached.</p><span class="pill good">Strongest</span></div>
+    <div class="card"><h4>Brand power</h4><p class="small">A promise that commands a price premium and repeat purchase without re-convincing (FMCG, luxury). Visible in gross margins and ad-spend efficiency, built over decades.</p><span class="pill good">Durable</span></div>
+    <div class="card"><h4>Switching costs</h4><p class="small">Leaving is painful — retraining, data migration, regulatory revalidation (core banking software, ERPs). Shows up as &gt;100% net revenue retention and pricing power on renewals.</p><span class="pill good">Sticky</span></div>
+    <div class="card"><h4>Scale advantages</h4><p class="small">Fixed costs spread over the largest volume base; distribution reach rivals can't replicate economically. The big get structurally cheaper.</p><span class="pill neut">Capital-heavy</span></div>
+    <div class="card"><h4>Cost leadership</h4><p class="small">A process, location or asset advantage that makes you the lowest-cost producer (commodities, logistics). The only safe seat in a price war.</p><span class="pill neut">Defensible</span></div>
+    <div class="card"><h4>No moat</h4><p class="small">If customers choose on price alone and entry is easy, high ROCE is a temporary accident. Expect mean reversion — and value the business accordingly.</p><span class="pill bad">Fragile</span></div>
+  </div>
+  <div class="alpha"><span class="tag">Alpha check</span> Alpha's 80% gross-margin subscription revenue, 2% monthly churn and rising NRR point to <strong>switching costs</strong> as its moat. The test: can it raise prices 8–10% without losing customers? Its 20% ROE sustained over 5 years says competitors haven't broken in — yet.</div>
+
+  <h3>Porter's five forces — reading industry structure</h3>
+  <div class="grid g3">
+    <div class="card k"><h4>1 · Rivalry</h4><p class="small">Many similar players + slow growth + high fixed costs = price wars (telecom, airlines). Few rational players = pricing discipline.</p></div>
+    <div class="card k"><h4>2 · New entrants</h4><p class="small">How hard is entry? Licences, capital, brand, distribution all raise the wall. Easy entry caps everyone's margins.</p></div>
+    <div class="card k"><h4>3 · Supplier power</h4><p class="small">Concentrated suppliers squeeze you (aircraft makers vs airlines). Fragmented suppliers get squeezed.</p></div>
+    <div class="card k"><h4>4 · Buyer power</h4><p class="small">Few large customers can dictate prices &amp; payment terms — check customer-concentration disclosures (&gt;20% from one client is a flag).</p></div>
+    <div class="card k"><h4>5 · Substitutes</h4><p class="small">The outside threat: UPI vs cards, OTT vs cable. Substitutes kill industries quietly, then suddenly.</p></div>
+    <div class="card"><h4>The output</h4><p class="small">Favourable structure → industry ROCE persistently above cost of capital. Hostile structure → even great managers earn poor returns. <strong>Pick ponds where fish are big.</strong></p></div>
+  </div>
+
+  <h3>Management quality &amp; governance</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Competence — the track record</h4>
+      <p class="small">Judge by outcomes over a full cycle: ROIC vs cost of capital, per-share value growth, acquisitions that actually earned their keep, guidance vs delivery. Read 5 years of annual-report letters — did they do what they said?</p></div>
+    <div class="card"><h4>Integrity — the alignment</h4>
+      <p class="small">Promoter holding high and <strong>unpledged</strong>; salaries reasonable vs profits; minimal related-party transactions; clean auditor opinions; independent board that actually dissents; conservative accounting choices.</p></div>
+  </div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Governance signal</th><th>Comfort</th><th>Red flag</th></tr></thead>
+    <tbody>
+      <tr><td>Promoter pledge</td><td class="num">0%</td><td class="num">&gt;20% of holding pledged</td></tr>
+      <tr><td>Auditor</td><td>Stable, reputed, clean opinions</td><td>Frequent resignations / qualifications</td></tr>
+      <tr><td>Related-party deals</td><td>Minimal, arm's length</td><td>Loans to promoter entities, royalty creep</td></tr>
+      <tr><td>Remuneration</td><td>Tied to ROCE / EPS growth</td><td>Rising while profits fall</td></tr>
+      <tr><td>Capital allocation</td><td>Buybacks below value, rational capex</td><td>Diworsification into unrelated glamour sectors</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Falling for charismatic founders over cash flows · assuming past growth proves a moat · ignoring industry structure because "management is great".</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Buy businesses a fool could run held by managers who aren't fools — inside industries where economics, not effort, do the heavy lifting.</div>
+</section>
+
+<!-- ============ SECTION 14 : FORENSIC ACCOUNTING ============ -->
+<section class="gsec" id="s14" data-title="Forensic accounting">
+  <div class="shead">
+    <div class="eyebrow">Section 14</div>
+    <h2>Forensic Accounting — Catching Manipulation Before It Catches You</h2>
+    <p class="lede">Most frauds aren't hidden — they're printed in the annual report, waiting for someone to reconcile profit with cash. Learn the standard tricks and the cross-checks that expose them.</p>
+  </div>
+
+  <h3>The manipulation playbook</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Aggressive revenue recognition</h4><p class="small">Booking sales before they're earned — long-term contracts front-loaded, sales with return rights, "bill and hold". <strong>Tell:</strong> receivables growing much faster than revenue; unbilled revenue ballooning.</p></div>
+    <div class="card"><h4>Channel stuffing</h4><p class="small">Forcing inventory onto dealers at quarter-end to book sales. Borrows from next quarter until the channel chokes. <strong>Tell:</strong> spiking quarter-end receivables, rising dealer incentives, later sales returns.</p></div>
+    <div class="card"><h4>Round tripping</h4><p class="small">Sales to related entities that route the money back — revenue without economic substance. <strong>Tell:</strong> growth driven by obscure counterparties, matching purchases &amp; sales with the same group.</p></div>
+    <div class="card"><h4>Related-party siphoning</h4><p class="small">Loans &amp; advances to promoter entities, inflated royalty/rent to family firms, assets bought from promoters above fair value. <strong>Tell:</strong> the related-party-transactions note — always read it.</p></div>
+    <div class="card"><h4>Expense games</h4><p class="small">Capitalising operating costs as assets (so they skip the P&amp;L), stretching depreciation lives, one-time "exceptional" losses every single year. <strong>Tell:</strong> rising intangibles/CWIP with no products; margins detached from peers.</p></div>
+    <div class="card"><h4>Balance-sheet dressing</h4><p class="small">Fake or restricted cash, undisclosed pledges &amp; guarantees, window-dressing debt at year-end. <strong>Tell:</strong> high "cash" alongside high-cost borrowing — why borrow at 12% while holding idle cash?</p></div>
+  </div>
+
+  <h3>Three cases every investor must know</h3>
+  <div class="tabs" data-tabs>
+    <div class="tabbar">
+      <button class="tab-btn active" data-tab="fr1">Satyam (2009)</button>
+      <button class="tab-btn" data-tab="fr2">Enron (2001)</button>
+      <button class="tab-btn" data-tab="fr3">Wirecard (2020)</button>
+    </div>
+    <div class="tab-panel active" data-panel="fr1">
+      <p class="small"><strong>India's largest accounting fraud.</strong> ₹7,000+ crore of cash on the balance sheet simply didn't exist — invoices and bank statements were fabricated for years. The chairman confessed in a letter describing it as "riding a tiger, not knowing how to get off". <strong>Lesson:</strong> cash can be faked; cross-check interest <em>income</em> against reported cash. ₹5,000 cr earning almost no interest is a question, not a footnote.</p>
+    </div>
+    <div class="tab-panel" data-panel="fr2">
+      <p class="small"><strong>The SPE machine.</strong> Enron parked debt and losses in thousands of off-balance-sheet "special purpose entities" while booking mark-to-market profits on long-term contracts the day they were signed. Equity went from $90 to zero in a year. <strong>Lesson:</strong> profits that never convert to operating cash, plus complexity no one can explain, is the classic pre-collapse signature.</p>
+    </div>
+    <div class="tab-panel" data-panel="fr3">
+      <p class="small"><strong>€1.9 billion that never existed.</strong> Wirecard, a DAX-30 fintech, claimed cash in Philippine escrow accounts; auditors finally asked the banks — the accounts were fiction. Short-sellers and journalists had flagged it for years while regulators defended the company. <strong>Lesson:</strong> when management attacks questioners instead of answering questions, the questioners are usually right.</p>
+    </div>
+  </div>
+
+  <h3>Interactive forensic checklist — score any company</h3>
+  <div class="checklist" id="forensic-cl">
+    <div class="k">Tick every statement that is TRUE for the company you're analysing</div>
+    <label><input type="checkbox"> CFO ÷ PAT averaged above 0.8 over the last 5 years</label>
+    <label><input type="checkbox"> Receivables and inventory growing in line with (or slower than) revenue</label>
+    <label><input type="checkbox"> No material loans/advances to promoter or related entities</label>
+    <label><input type="checkbox"> Promoter pledge is zero or negligible</label>
+    <label><input type="checkbox"> Auditor is reputed, stable, and opinions are unqualified</label>
+    <label><input type="checkbox"> Tax paid in cash roughly tracks reported profit growth</label>
+    <label><input type="checkbox"> No habit of yearly "exceptional items" or frequent restatements</label>
+    <label><input type="checkbox"> Cash balance is consistent with interest income earned</label>
+    <label><input type="checkbox"> Debt is falling or stable while profits grow (not the reverse)</label>
+    <label><input type="checkbox"> Segment &amp; geography disclosures are clear, not deliberately fogged</label>
+    <div class="cl-score" data-good="9" data-warn="7"></div>
+  </div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Trusting the P&amp;L without the cash-flow statement · skipping the notes &amp; related-party schedule · assuming a Big-4 audit guarantees truth (Satyam, Enron and Wirecard all had marquee auditors).</div>
+  <div class="call pro"><b class="cl">How professionals use it</b>Forensic screens run <em>before</em> valuation: if CFO/PAT, receivables growth or pledge levels fail, the stock is rejected no matter how cheap. Cheap frauds are still frauds.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Profit is an opinion; cash is a fact; promoter behaviour is the truth. Reconcile all three every single year you hold.</div>
+</section>
+
+<!-- ============ SECTION 15 : INDUSTRY-SPECIFIC ============ -->
+<section class="gsec" id="s15" data-title="Industry playbooks">
+  <div class="shead">
+    <div class="eyebrow">Section 15</div>
+    <h2>Industry-Specific Analysis — The Right Metric for the Right Business</h2>
+    <p class="lede">Applying P/E to a bank or EV/EBITDA to an insurer is how good analysts make bad calls. Every industry has its own scoreboard — here are twelve playbooks.</p>
+  </div>
+
+  <h3>Financial businesses</h3>
+  <div class="tabs" data-tabs>
+    <div class="tabbar">
+      <button class="tab-btn active" data-tab="in1">Banks</button>
+      <button class="tab-btn" data-tab="in2">Insurance</button>
+      <button class="tab-btn" data-tab="in3">NBFCs</button>
+      <button class="tab-btn" data-tab="in4">REITs</button>
+    </div>
+    <div class="tab-panel active" data-panel="in1">
+      <p class="small"><strong>What the business is:</strong> borrow at deposit rates, lend higher, survive the credit cycle.</p>
+      <div class="formula">NIM = (Interest earned − Interest paid) ÷ Avg earning assets · healthy 3–4%&#10;GNPA / NNPA = bad loans before / after provisions · NNPA &lt; 1% is strong&#10;CASA = low-cost deposits ÷ total · higher = cheaper funding&#10;CAR ≥ 11.5% regulatory · ROA ≥ 1.5% and ROE 14–18% = top tier</div>
+      <p class="small">Value on <strong>P/B vs ROE</strong>, never EV/EBITDA (debt IS the raw material). Provision coverage ratio shows prudence; credit-cost guidance shows honesty.</p>
+    </div>
+    <div class="tab-panel" data-panel="in2">
+      <p class="small"><strong>What the business is:</strong> collect premiums today, pay claims tomorrow, invest the float.</p>
+      <div class="formula">VNB margin = value of new business ÷ premium · life insurers&#10;Embedded value (EV) = net worth + PV of future profits — value on P/EV&#10;Persistency (13th/61st month) = do customers keep paying?&#10;Combined ratio &lt; 100% = general insurer underwrites profitably&#10;Solvency ratio ≥ 1.5× regulatory</div>
+    </div>
+    <div class="tab-panel" data-panel="in3">
+      <p class="small"><strong>What the business is:</strong> a bank without deposits — funding risk is the killer.</p>
+      <div class="formula">AUM growth + Spread (yield − cost of funds) drive earnings&#10;GNPA by segment · capital adequacy · borrowing mix (banks/bonds/CPs)&#10;ALM mismatch: short borrowing vs long lending = refinancing risk</div>
+      <p class="small">Check who funds them and for how long — NBFC crises (IL&amp;FS 2018) are liquidity events first, credit events second.</p>
+    </div>
+    <div class="tab-panel" data-panel="in4">
+      <p class="small"><strong>What the business is:</strong> rent-collecting real estate distributing ≥90% of cash flows.</p>
+      <div class="formula">NOI = rental income − property opex&#10;Occupancy % · WALE (weighted avg lease expiry, years)&#10;Distribution yield = payout ÷ unit price · compare vs G-Sec&#10;NAV per unit vs price · LTV (debt ÷ asset value) &lt; 49% cap</div>
+    </div>
+  </div>
+
+  <h3>Operating businesses</h3>
+  <div class="tabs" data-tabs>
+    <div class="tabbar">
+      <button class="tab-btn active" data-tab="in5">SaaS</button>
+      <button class="tab-btn" data-tab="in6">IT services</button>
+      <button class="tab-btn" data-tab="in7">Manufacturing</button>
+      <button class="tab-btn" data-tab="in8">FMCG</button>
+      <button class="tab-btn" data-tab="in9">Pharma</button>
+      <button class="tab-btn" data-tab="in10">Energy</button>
+      <button class="tab-btn" data-tab="in11">Telecom</button>
+      <button class="tab-btn" data-tab="in12">Infra</button>
+    </div>
+    <div class="tab-panel active" data-panel="in5">
+      <div class="formula">ARR = annual recurring revenue · NRR &gt; 110% = expansion engine&#10;Rule of 40: growth % + FCF margin % ≥ 40&#10;CAC payback &lt; 12–18 months · gross margin 75–85% · churn &lt; 2%/mo</div>
+      <p class="small">Alpha's own scoreboard: LTV/CAC 5×, payback 10 months — the unit economics that justified its Series B.</p>
+    </div>
+    <div class="tab-panel" data-panel="in6">
+      <div class="formula">Constant-currency revenue growth · EBIT margin 20–25% (tier-1)&#10;Attrition &lt; 15% · Utilisation 80%+ · TCV/deal-wins = forward visibility</div>
+      <p class="small">Watch pricing per employee and the pyramid (fresher ratio) — margins live there.</p>
+    </div>
+    <div class="tab-panel" data-panel="in7">
+      <div class="formula">Capacity utilisation &gt; 75–80% = operating leverage kicks in&#10;Asset turnover × margin → ROCE through the cycle&#10;Working-capital days · power/raw-material cost intensity</div>
+      <p class="small">Judge over a full cycle: peak-margin years flatter, trough years reveal. Capex announcements precede earnings by 2–3 years.</p>
+    </div>
+    <div class="tab-panel" data-panel="in8">
+      <div class="formula">Volume growth vs price-led growth (volume is the truth)&#10;Distribution reach · ad-spend % · gross margin trajectory&#10;ROCE 30%+ typical — the moat is the shelf and the mind</div>
+    </div>
+    <div class="tab-panel" data-panel="in9">
+      <div class="formula">R&amp;D % of sales · US-FDA status of plants (OAI = trouble)&#10;ANDA pipeline · domestic vs export mix · API dependence on China</div>
+      <p class="small">One bad FDA inspection can erase a year of earnings — regulatory risk is the sector's beta.</p>
+    </div>
+    <div class="tab-panel" data-panel="in10">
+      <div class="formula">GRM ($/bbl) for refiners · reserve replacement for producers&#10;Realisation vs benchmark (Brent) · regulated vs merchant mix for power</div>
+    </div>
+    <div class="tab-panel" data-panel="in11">
+      <div class="formula">ARPU (₹/user/month) · subscriber adds &amp; churn&#10;Capex ÷ revenue (spectrum + network) · Net debt ÷ EBITDA — the killer ratio</div>
+    </div>
+    <div class="tab-panel" data-panel="in12">
+      <div class="formula">Order book ÷ revenue (book-to-bill &gt; 2.5× = visibility)&#10;Execution speed · working capital days · ICR &amp; mobilisation advances</div>
+      <p class="small">Margins are thin and fixed-price contracts carry inflation risk — balance-sheet strength decides who survives delays.</p>
+    </div>
+  </div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Valuing banks on EV/EBITDA · comparing SaaS gross margins with manufacturing · ignoring regulatory cycles (pharma, telecom) · using peak-cycle earnings as "normal" for commodities.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>First ask "how does this industry keep score?" — then check whether your company is winning by <em>that</em> scoreboard, not the generic one.</div>
+</section>
+
+<!-- ============ SECTION 16 : PROFESSIONAL FRAMEWORK ============ -->
+<section class="gsec" id="s16" data-title="Pro framework">
+  <div class="shead">
+    <div class="eyebrow">Section 16</div>
+    <h2>The Professional Investment Framework — From Idea to Decision</h2>
+    <p class="lede">Institutions don't rely on brilliance; they rely on <strong>process</strong>. This is the workflow that turns 5,000 listed companies into a portfolio of 15–25 researched convictions.</p>
+  </div>
+
+  <h3>The seven-step workflow</h3>
+  <div class="flow">
+    <div class="step"><h4>1 · Screen</h4><p class="small">Filter the universe: ROCE &gt; 15%, debt/equity &lt; 1, sales growth &gt; 10%, CFO/PAT &gt; 0.8. 5,000 → ~150 names.</p></div>
+    <div class="step"><h4>2 · Forensic gate</h4><p class="small">Section-14 checklist. Any fraud signal = instant reject, regardless of price.</p></div>
+    <div class="step"><h4>3 · Business deep-dive</h4><p class="small">Annual reports (5 yrs), moat &amp; Porter analysis, industry scoreboard, channel checks.</p></div>
+    <div class="step"><h4>4 · Financial model</h4><p class="small">Rebuild the three statements; project 3–5 yrs; stress-test margins and working capital.</p></div>
+    <div class="step"><h4>5 · Valuation</h4><p class="small">DCF range + multiples vs peers/history + reverse-DCF. Set buy-below price.</p></div>
+    <div class="step"><h4>6 · Score &amp; decide</h4><p class="small">Weighted scorecard below. Position size follows conviction and risk.</p></div>
+    <div class="step"><h4>7 · Monitor</h4><p class="small">Quarterly thesis check: results vs assumptions. Exit triggers written in advance.</p></div>
+  </div>
+
+  <h3>The weighted scorecard</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Dimension</th><th class="num">Weight</th><th>What earns 5/5</th><th>What earns 1/5</th></tr></thead>
+    <tbody>
+      <tr><td>Business quality &amp; moat</td><td class="num">25%</td><td>Durable moat, ROCE &gt; 20% across cycle</td><td>Commodity product, price-taker</td></tr>
+      <tr><td>Management &amp; governance</td><td class="num">20%</td><td>Skilled allocators, zero pledge, clean RPTs</td><td>Pledged promoters, auditor churn</td></tr>
+      <tr><td>Financial strength</td><td class="num">25%</td><td>CFO/PAT &gt; 0.9, net cash, stable margins</td><td>Leverage rising, cash never arrives</td></tr>
+      <tr><td>Valuation comfort</td><td class="num">20%</td><td>≥ 30% below intrinsic range</td><td>Priced for perfection</td></tr>
+      <tr><td>Risk profile</td><td class="num">10%</td><td>Diversified customers, low regulation risk</td><td>One client, one product, one geography</td></tr>
+      <tr class="total"><td>Composite</td><td class="num">100%</td><td colspan="2">≥ 4.0 investable · 3.0–3.9 watchlist · &lt; 3.0 reject</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Buy · Hold · Sell rules</h3>
+  <div class="grid g3">
+    <div class="card"><h4><span class="pill good">BUY</span></h4><p class="small">Score ≥ 4.0 <strong>and</strong> margin of safety ≥ 25%. Quality and price must agree — either alone is insufficient.</p></div>
+    <div class="card"><h4><span class="pill warn">HOLD</span></h4><p class="small">Thesis intact but price has caught up (MoS &lt; 10%), or score dips to 3.5 on fixable issues. Compounding continues; adding stops.</p></div>
+    <div class="card"><h4><span class="pill bad">SELL</span></h4><p class="small">Thesis broken (moat eroding, governance breach, forensic flag), better opportunity at equal risk, or valuation &gt; 40% above the top of your range.</p></div>
+  </div>
+
+  <h3>Portfolio inclusion criteria</h3>
+  <div class="grid g2">
+    <div class="card k"><h4>Construction discipline</h4><p class="small">15–25 positions · max 10% in one stock at cost · max 25–30% per sector · initial position 3–5%, scale with evidence · cash is a position when nothing clears the bar.</p></div>
+    <div class="card k"><h4>Written before buying</h4><p class="small">One-page thesis · the 3 assumptions that must stay true · pre-committed exit triggers · the bear case argued honestly. If you can't write it, you don't own a thesis — you own a ticker.</p></div>
+  </div>
+
+  <div class="call mis"><b class="cl">Common mistakes</b>Skipping the forensic gate because the story is exciting · sizing by excitement instead of conviction-×-risk · moving the goalposts after results miss.</div>
+  <div class="call take"><b class="cl">Investor takeaway</b>Edge = (sound process) × (repetition) × (time). The scorecard isn't bureaucracy — it's what keeps you rational when the market isn't.</div>
+</section>
+
+<!-- ============ SECTION 17 : ANALYSIS TEMPLATE ============ -->
+<section class="gsec" id="s17" data-title="Analysis template">
+  <div class="shead">
+    <div class="eyebrow">Section 17</div>
+    <h2>The Complete Analysis Template — Analyse Any Listed Company</h2>
+    <p class="lede">Your reusable one-company dossier. Work through the accordions top to bottom, fill the prompts, and you'll have produced an institutional-grade research note — repeatable for every stock you ever study.</p>
+  </div>
+
+  <details class="acc" open><summary>1 · Business analysis</summary><div class="accbody">
+    <p class="small">□ What does the company sell, to whom, and why do customers choose it?&nbsp; □ Revenue split by segment / geography / customer concentration.&nbsp; □ Industry size, growth and structure (five forces).&nbsp; □ Moat type and the evidence for it (pricing power, retention, share gains).&nbsp; □ Unit economics: what does one unit of sale earn?&nbsp; □ Key dependencies — suppliers, regulation, technology shifts.</p>
+  </div></details>
+
+  <details class="acc"><summary>2 · Management &amp; governance analysis</summary><div class="accbody">
+    <p class="small">□ Track record: 5-yr promises vs delivery.&nbsp; □ Capital-allocation history — what did they do with every ₹100 of CFO?&nbsp; □ Promoter holding, pledge %, insider buys/sells.&nbsp; □ Related-party transactions and auditor history.&nbsp; □ Board independence; remuneration vs performance.&nbsp; □ Accounting conservatism (depreciation policy, revenue recognition).</p>
+  </div></details>
+
+  <details class="acc"><summary>3 · Financial analysis (5–10 yrs)</summary><div class="accbody">
+    <div class="formula">Growth: Revenue / EBITDA / PAT CAGR&#10;Quality: GM, OPM, NPM trend · ROE, ROCE, ROIC vs cost of capital&#10;Cash: CFO/PAT, FCF trend, cash conversion cycle&#10;Strength: D/E, ICR, net debt/EBITDA, working-capital days</div>
+    <p class="small">□ Rebuild the three statements in your own sheet.&nbsp; □ DuPont decomposition — what actually drives ROE?&nbsp; □ Forensic checklist (Section 14) passed in full.</p>
+  </div></details>
+
+  <details class="acc"><summary>4 · Valuation analysis</summary><div class="accbody">
+    <p class="small">□ Current multiples vs own 10-yr range and vs peers.&nbsp; □ DCF with explicit assumptions (growth, margin, WACC, terminal g) — output a <em>range</em>.&nbsp; □ Reverse-DCF: what does today's price assume?&nbsp; □ Buy-below price = intrinsic estimate × (1 − required MoS).</p>
+  </div></details>
+
+  <details class="acc"><summary>5 · Risk analysis</summary><div class="accbody">
+    <p class="small">□ Business risks (demand, competition, disruption).&nbsp; □ Financial risks (leverage, refinancing, currency).&nbsp; □ Governance risks.&nbsp; □ Regulatory/political risks.&nbsp; □ For each: probability × impact × your mitigation (price, size, or avoidance).</p>
+  </div></details>
+
+  <details class="acc"><summary>6 · Scenarios, thesis &amp; decision</summary><div class="accbody">
+    <div class="tblwrap"><table>
+      <thead><tr><th>Scenario</th><th>Key assumptions</th><th class="num">EPS ×  multiple</th><th class="num">Target</th><th class="num">Probability</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill bad">Bear</span></td><td>Growth stalls to 8%, margin −300 bps</td><td class="num">55 × 12</td><td class="num">₹660</td><td class="num">25%</td></tr>
+        <tr><td><span class="pill neut">Base</span></td><td>18% growth sustains, margins steady</td><td class="num">68 × 16</td><td class="num">₹1,090</td><td class="num">50%</td></tr>
+        <tr><td><span class="pill good">Bull</span></td><td>22% growth + margin expansion</td><td class="num">75 × 20</td><td class="num">₹1,500</td><td class="num">25%</td></tr>
+        <tr class="total"><td>Probability-weighted target</td><td colspan="3"></td><td class="num">₹1,085</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Worked on Alpha at ₹900: weighted target ₹1,085 → expected upside ~20%, bear-case downside −27%. Reward/risk ≈ 0.8 — <strong>below</strong> the 2:1 a professional demands. Verdict: quality confirmed, price not yet right → <em>watchlist with a buy-below at ~₹815 (25% MoS on base intrinsic)</em>.</p>
+    <p class="small">□ Write the thesis in 5 sentences.&nbsp; □ List the 3 assumptions that must remain true.&nbsp; □ Pre-commit exit triggers.&nbsp; □ Decision: <span class="pill good">Buy</span> <span class="pill warn">Watchlist</span> <span class="pill bad">Reject</span> — with position size.</p>
+  </div></details>
+
+  <div class="call take"><b class="cl">Final takeaway</b>You now hold the entire chain: how shares are born, how companies are funded, listed and priced, how to read their statements, judge their quality, value them, detect their lies, and decide with discipline. The template above is the habit that turns this knowledge into returns — one company at a time.</div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="inner">
+    <p><strong>Fundamental Analysis Master Guide</strong> · Built around the fictional Alpha Technologies Ltd for teaching purposes.</p>
+    <p class="tiny">Educational content only — not investment advice, not a solicitation, and not a substitute for a SEBI-registered investment adviser. Figures are illustrative; verify all data before acting. Markets carry risk of capital loss.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var d=document, root=d.documentElement;
+  var fmt=function(n,dec){return n.toLocaleString('en-IN',{maximumFractionDigits:dec==null?0:dec,minimumFractionDigits:0});};
+
+  /* ---------- Theme ---------- */
+  var saved=null;
+  var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function setTheme(t){
+    root.setAttribute('data-theme',t);
+    var lbl=d.getElementById('themeLabel');
+    if(lbl) lbl.textContent = t==='dark' ? 'Light mode' : 'Dark mode';
+  }
+  setTheme(prefersDark?'dark':'light');
+  var tb=d.getElementById('themeBtn');
+  if(tb) tb.addEventListener('click',function(){
+    setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');
+  });
+
+  /* ---------- Section navigation ---------- */
+  var secs=[].slice.call(d.querySelectorAll('.gsec'));
+  var chipsEl=d.getElementById('chips'), prog=d.getElementById('progFill');
+  var cur=0;
+
+  secs.forEach(function(s,i){
+    var c=d.createElement('button');
+    c.className='chip';
+    c.innerHTML = i===0 ? s.dataset.title : '<b>'+i+'</b>'+s.dataset.title;
+    c.addEventListener('click',function(){show(i);});
+    chipsEl.appendChild(c);
+  });
+
+  /* prev/next footers */
+  secs.forEach(function(s,i){
+    var nf=d.createElement('div'); nf.className='navfoot';
+    if(i>0){
+      var p=d.createElement('button'); p.className='nbtn prev';
+      p.innerHTML='<small>← Previous</small><span>'+secs[i-1].dataset.title+'</span>';
+      p.addEventListener('click',function(){show(i-1);});
+      nf.appendChild(p);
+    }
+    if(i<secs.length-1){
+      var nx=d.createElement('button'); nx.className='nbtn next';
+      nx.innerHTML='<small>Next →</small><span>'+secs[i+1].dataset.title+'</span>';
+      nx.addEventListener('click',function(){show(i+1);});
+      nf.appendChild(nx);
+    }
+    s.appendChild(nf);
+  });
+
+  var chips=[].slice.call(chipsEl.children);
+  function show(i){
+    cur=i;
+    secs.forEach(function(s,j){s.classList.toggle('active',j===i);});
+    chips.forEach(function(c,j){c.classList.toggle('active',j===i);});
+    if(prog) prog.style.width=(i/(secs.length-1)*100)+'%';
+    var act=chips[i]; if(act&&act.scrollIntoView) act.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+    window.scrollTo({top:0,behavior:'smooth'});
+    runCounters(secs[i]);
+  }
+
+  d.addEventListener('keydown',function(e){
+    if(e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+    if(e.key==='ArrowRight'&&cur<secs.length-1)show(cur+1);
+    if(e.key==='ArrowLeft'&&cur>0)show(cur-1);
+  });
+
+  /* ---------- Tabs ---------- */
+  [].forEach.call(d.querySelectorAll('[data-tabs]'),function(group){
+    var btns=group.querySelectorAll('.tab-btn'), panels=group.querySelectorAll('.tab-panel');
+    [].forEach.call(btns,function(b){
+      b.addEventListener('click',function(){
+        [].forEach.call(btns,function(x){x.classList.toggle('active',x===b);});
+        [].forEach.call(panels,function(p){p.classList.toggle('active',p.dataset.panel===b.dataset.tab);});
+      });
+    });
+  });
+
+  /* ---------- Counter-up ---------- */
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function runCounters(scope){
+    [].forEach.call(scope.querySelectorAll('.count'),function(el){
+      if(el.dataset.done)return; el.dataset.done='1';
+      var target=parseFloat(el.dataset.count)||0, suf=el.dataset.suffix||'';
+      if(reduce){el.textContent=fmt(target)+suf;return;}
+      var t0=null, dur=900;
+      function tick(ts){
+        if(!t0)t0=ts;
+        var k=Math.min(1,(ts-t0)/dur); k=1-Math.pow(1-k,3);
+        el.textContent=fmt(Math.round(target*k))+suf;
+        if(k<1)requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});
+    },{threshold:.12});
+    [].forEach.call(d.querySelectorAll('.rv'),function(el){io.observe(el);});
+  }
+
+  /* ---------- Calculator: dilution (s3) ---------- */
+  function bind(ids,fn){
+    var els=ids.map(function(id){return d.getElementById(id);});
+    if(els.some(function(e){return !e;}))return;
+    els.forEach(function(e){e.addEventListener('input',fn);});
+    fn();
+  }
+  bind(['dl-pre','dl-raise','dl-own'],function(){
+    var pre=+d.getElementById('dl-pre').value||0,
+        raise=+d.getElementById('dl-raise').value||0,
+        own=+d.getElementById('dl-own').value||0;
+    var post=pre+raise;
+    if(post<=0){d.getElementById('dl-out').textContent='Enter values above.';return;}
+    var inv=raise/post*100, newOwn=own*pre/post;
+    d.getElementById('dl-out').innerHTML=
+      'Post-money = ₹'+fmt(pre)+' cr + ₹'+fmt(raise)+' cr = <strong>₹'+fmt(post)+' cr</strong> · '+
+      'New investor gets <strong>'+inv.toFixed(1)+'%</strong> · '+
+      'Your stake: '+own.toFixed(1)+'% → <strong>'+newOwn.toFixed(1)+'%</strong> '+
+      '(diluted by '+(own-newOwn).toFixed(1)+' pts — but of a bigger pie).';
+  });
+
+  /* ---------- Calculator: compounding (s11) ---------- */
+  bind(['cp-amt','cp-r','cp-y'],function(){
+    var P=+d.getElementById('cp-amt').value||0,
+        r=(+d.getElementById('cp-r').value||0)/100/12,
+        n=(+d.getElementById('cp-y').value||0)*12;
+    var inv=P*n;
+    var fv=r>0 ? P*((Math.pow(1+r,n)-1)/r)*(1+r) : inv;
+    d.getElementById('cp-out').innerHTML=
+      'Invested: <strong>₹'+fmt(inv)+'</strong> → Final value: <strong>₹'+fmt(Math.round(fv))+'</strong> · '+
+      'Wealth created: ₹'+fmt(Math.round(fv-inv))+' ('+(inv>0?(fv/inv).toFixed(1):'0')+'× your contributions).';
+  });
+
+  /* ---------- Calculator: DCF (s12) ---------- */
+  bind(['dc-fcf','dc-g','dc-tg','dc-r','dc-nd','dc-sh','dc-px'],function(){
+    var f0=+d.getElementById('dc-fcf').value||0,
+        g=(+d.getElementById('dc-g').value||0)/100,
+        tg=(+d.getElementById('dc-tg').value||0)/100,
+        w=(+d.getElementById('dc-r').value||0)/100,
+        nd=+d.getElementById('dc-nd').value||0,
+        sh=+d.getElementById('dc-sh').value||0,
+        px=+d.getElementById('dc-px').value||0;
+    var out=d.getElementById('dc-out');
+    if(w<=tg){out.innerHTML='<strong>WACC must exceed terminal growth</strong> — otherwise value is infinite (and wrong).';return;}
+    var pv=0,f=f0;
+    for(var y=1;y<=5;y++){f=f*(1+g);pv+=f/Math.pow(1+w,y);}
+    var tv=f*(1+tg)/(w-tg), pvtv=tv/Math.pow(1+w,5);
+    var ev=pv+pvtv, eq=ev-nd, ivps=sh>0?eq/sh/1e0:0; /* ₹cr ÷ cr shares = ₹/share */
+    var mos=ivps>0?(ivps-px)/ivps*100:0;
+    var verdict = mos>=25?'<span class="pill good">Buy zone (MoS ≥ 25%)</span>'
+                : mos>=0?'<span class="pill warn">Fairly priced — thin safety</span>'
+                : '<span class="pill bad">Above intrinsic — price assumes more</span>';
+    out.innerHTML=
+      'PV of 5-yr FCF ₹'+fmt(Math.round(pv))+' cr + PV of terminal ₹'+fmt(Math.round(pvtv))+' cr (TV is '+Math.round(pvtv/ev*100)+'% of value) '+
+      '→ EV <strong>₹'+fmt(Math.round(ev))+' cr</strong> − net debt ₹'+fmt(nd)+' cr = equity ₹'+fmt(Math.round(eq))+' cr · '+
+      'Intrinsic ≈ <strong>₹'+fmt(Math.round(ivps))+'/share</strong> vs market ₹'+fmt(px)+' · Margin of safety: <strong>'+mos.toFixed(0)+'%</strong> '+verdict;
+  });
+
+  /* ---------- Checklists ---------- */
+  [].forEach.call(d.querySelectorAll('.checklist'),function(cl){
+    var boxes=cl.querySelectorAll('input[type=checkbox]'), score=cl.querySelector('.cl-score');
+    if(!score)return;
+    var good=+score.dataset.good||boxes.length, warn=+score.dataset.warn||Math.ceil(boxes.length*0.7);
+    function upd(){
+      var n=0;[].forEach.call(boxes,function(b){if(b.checked)n++;});
+      var v = n>=good?'Clean — proceed to valuation':(n>=warn?'Caution — investigate the misses':'High risk — professional standard says reject');
+      score.textContent='Score: '+n+' / '+boxes.length+' · '+v;
+    }
+    [].forEach.call(boxes,function(b){b.addEventListener('change',upd);});
+    upd();
+  });
+
+  /* ---------- Init ---------- */
+  show(0);
+})();
+</script>
+</body>
+</html>
